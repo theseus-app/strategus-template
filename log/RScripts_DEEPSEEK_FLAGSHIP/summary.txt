@@ -1,0 +1,17 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : FLAGSHIP
+Runner     : Rscript
+--------------------------------------
+Total scripts : 11
+Success count : 7
+Fail count    : 4
+Accuracy      : 63.64%
+
+❌ Failed Scripts:
+  - ceeamos
+  - ranitidinecancer
+  - strokerisk
+  - tramadolcodein
+--------------------------------------
+Logs saved under: log/RScripts_DEEPSEEK_FLAGSHIP

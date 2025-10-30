@@ -1,0 +1,21 @@
+===== R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : LIGHT
+Runner     : Rscript
+--------------------------------------
+Total scripts : 11
+Success count : 3
+Fail count    : 8
+Accuracy      : 27.27%
+
+❌ Failed Scripts:
+  - antivegfkidney
+  - corazon
+  - covid19famotidine
+  - ranitidinecancer
+  - rapidcyclejanssen
+  - semaglutideandnaion
+  - strokerisk
+  - tramadolcodein
+--------------------------------------
+Logs saved under: log/RScripts_OPENAI_LIGHT

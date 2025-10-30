@@ -1,0 +1,72 @@
+{
+  "createdAt": "2025-10-28T00:07:31.412Z",
+  "totalCases": 11,
+  "results": [
+    {
+      "name": "AntiVEGFKidney",
+      "fileName": "antivegfkidney.R",
+      "createdAt": "2025-10-27T23:47:10.493Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/antivegfkidney.R"
+    },
+    {
+      "name": "CEEAMOS",
+      "fileName": "ceeamos.R",
+      "createdAt": "2025-10-27T23:49:04.166Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/ceeamos.R"
+    },
+    {
+      "name": "CORAZON",
+      "fileName": "corazon.R",
+      "createdAt": "2025-10-27T23:51:02.524Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/corazon.R"
+    },
+    {
+      "name": "COVID19Famotidine",
+      "fileName": "covid19famotidine.R",
+      "createdAt": "2025-10-27T23:53:03.761Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/covid19famotidine.R"
+    },
+    {
+      "name": "RanitidineCancer",
+      "fileName": "ranitidinecancer.R",
+      "createdAt": "2025-10-27T23:55:00.172Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/ranitidinecancer.R"
+    },
+    {
+      "name": "RapidCycleJanssen",
+      "fileName": "rapidcyclejanssen.R",
+      "createdAt": "2025-10-27T23:56:38.444Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/rapidcyclejanssen.R"
+    },
+    {
+      "name": "SemaglutideandNAION",
+      "fileName": "semaglutideandnaion.R",
+      "createdAt": "2025-10-27T23:57:59.532Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/semaglutideandnaion.R"
+    },
+    {
+      "name": "StrokeRisk",
+      "fileName": "strokerisk.R",
+      "createdAt": "2025-10-28T00:00:32.884Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/strokerisk.R"
+    },
+    {
+      "name": "TicagrelorClopidogrel",
+      "fileName": "ticagrelorclopidogrel.R",
+      "createdAt": "2025-10-28T00:03:16.462Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/ticagrelorclopidogrel.R"
+    },
+    {
+      "name": "TramadolCodein",
+      "fileName": "tramadolcodein.R",
+      "createdAt": "2025-10-28T00:05:33.221Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/tramadolcodein.R"
+    },
+    {
+      "name": "UveitisSafety",
+      "fileName": "uveitissafety.R",
+      "createdAt": "2025-10-28T00:07:31.412Z",
+      "savedPath": "public/RScripts_OPENAI_LIGHT/uveitissafety.R"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+renv 1.1.5 was loaded from project library, but this project is configured to use renv 1.0.11.
+- Use `renv::record("renv@1.1.5")` to record renv 1.1.5 in the lockfile.
+- Use `renv::restore(packages = "renv")` to install renv 1.0.11 into the project library.
+- One or more packages recorded in the lockfile are not installed.
+- Use `renv::status()` for more details.
+Warning message:
+Error installing package 'reticulate':
+======================================
+
+* installing *source* package ‘reticulate’ ...
+** this is package ‘reticulate’ version ‘1.39.0’
+** package ‘reticulate’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+using C++ compiler: ‘Apple clang version 17.0.0 (clang-1700.0.13.3)’
+using SDK: ‘MacOSX15.5.sdk’
+clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew/opt/gettext/include -I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/xz/include -I/opt/homebrew/include    -fPIC  -g -O2   -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew [... truncated] 
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: CohortGenerator
+Loading required package: DatabaseConnector
+Loading required package: R6
+
+Attaching package: ‘Strategus’
+
+The following object is masked from ‘package:CohortGenerator’:
+
+    uploadResults
+
+Loading required package: Cyclops
+Loading required package: FeatureExtraction
+Loading required package: Andromeda
+
+Attaching package: ‘CohortMethod’
+
+The following object is masked from ‘package:Strategus’:
+
+    uploadResults
+
+The following objects are masked from ‘package:CohortGenerator’:
+
+    createResultsDataModel, getDataMigrator,
+    getResultsDataModelSpecifications, migrateDataModel, uploadResults
+
+Fetching cohortId: 1794126
+Fetching cohortId: 1794132
+Fetching cohortId: 1794131
+    ✔ Success: antivegfkidney

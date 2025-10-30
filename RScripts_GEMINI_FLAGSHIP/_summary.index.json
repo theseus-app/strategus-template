@@ -1,0 +1,72 @@
+{
+  "createdAt": "2025-10-28T03:52:45.121Z",
+  "totalCases": 11,
+  "results": [
+    {
+      "name": "AntiVEGFKidney",
+      "fileName": "antivegfkidney.R",
+      "createdAt": "2025-10-28T03:38:16.251Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/antivegfkidney.R"
+    },
+    {
+      "name": "CEEAMOS",
+      "fileName": "ceeamos.R",
+      "createdAt": "2025-10-28T03:39:50.395Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/ceeamos.R"
+    },
+    {
+      "name": "CORAZON",
+      "fileName": "corazon.R",
+      "createdAt": "2025-10-28T03:40:52.194Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/corazon.R"
+    },
+    {
+      "name": "COVID19Famotidine",
+      "fileName": "covid19famotidine.R",
+      "createdAt": "2025-10-28T03:42:03.482Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/covid19famotidine.R"
+    },
+    {
+      "name": "RanitidineCancer",
+      "fileName": "ranitidinecancer.R",
+      "createdAt": "2025-10-28T03:43:45.625Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/ranitidinecancer.R"
+    },
+    {
+      "name": "RapidCycleJanssen",
+      "fileName": "rapidcyclejanssen.R",
+      "createdAt": "2025-10-28T03:45:27.351Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/rapidcyclejanssen.R"
+    },
+    {
+      "name": "SemaglutideandNAION",
+      "fileName": "semaglutideandnaion.R",
+      "createdAt": "2025-10-28T03:46:58.624Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/semaglutideandnaion.R"
+    },
+    {
+      "name": "StrokeRisk",
+      "fileName": "strokerisk.R",
+      "createdAt": "2025-10-28T03:48:14.507Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/strokerisk.R"
+    },
+    {
+      "name": "TicagrelorClopidogrel",
+      "fileName": "ticagrelorclopidogrel.R",
+      "createdAt": "2025-10-28T03:49:50.358Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/ticagrelorclopidogrel.R"
+    },
+    {
+      "name": "TramadolCodein",
+      "fileName": "tramadolcodein.R",
+      "createdAt": "2025-10-28T03:51:33.127Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/tramadolcodein.R"
+    },
+    {
+      "name": "UveitisSafety",
+      "fileName": "uveitissafety.R",
+      "createdAt": "2025-10-28T03:52:45.120Z",
+      "savedPath": "public/RScripts_GEMINI_FLAGSHIP/uveitissafety.R"
+    }
+  ]
+}

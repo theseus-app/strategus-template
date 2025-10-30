@@ -1,0 +1,18 @@
+===== R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : LIGHT
+Runner     : Rscript
+--------------------------------------
+Total scripts : 11
+Success count : 6
+Fail count    : 5
+Accuracy      : 54.55%
+
+❌ Failed Scripts:
+  - corazon
+  - covid19famotidine
+  - ranitidinecancer
+  - strokerisk
+  - tramadolcodein
+--------------------------------------
+Logs saved under: log/RScripts_CLAUDE_LIGHT

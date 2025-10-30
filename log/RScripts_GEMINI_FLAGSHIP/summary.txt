@@ -1,0 +1,15 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : FLAGSHIP
+Runner     : Rscript
+--------------------------------------
+Total scripts : 11
+Success count : 9
+Fail count    : 2
+Accuracy      : 81.82%
+
+❌ Failed Scripts:
+  - strokerisk
+  - tramadolcodein
+--------------------------------------
+Logs saved under: log/RScripts_GEMINI_FLAGSHIP

@@ -1,0 +1,14 @@
+===== R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : FLAGSHIP
+Runner     : Rscript
+--------------------------------------
+Total scripts : 11
+Success count : 10
+Fail count    : 1
+Accuracy      : 90.91%
+
+❌ Failed Scripts:
+  - strokerisk
+--------------------------------------
+Logs saved under: log/RScripts_CLAUDE_FLAGSHIP

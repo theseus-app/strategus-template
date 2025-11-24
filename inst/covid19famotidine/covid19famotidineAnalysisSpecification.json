@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20200201-20200530; TAR: 1-30 days; PS: Stratify by PS",
+            "description": "Study: 20200201-20200530; TAR: 1-30 days post-exposure; PS: Stratify by PS (5 strata)",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20200201",
               "studyEndDate": "20200530",
@@ -307,7 +307,7 @@
           },
           {
             "analysisId": 2,
-            "description": "Study: 20200201-20200530; TAR: 1-30 days; PS: Match on PS",
+            "description": "Study: 20200201-20200530; TAR: 1-30 days post-exposure; PS: Match on PS (1:1, caliper=0.2)",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20200201",
               "studyEndDate": "20200530",
@@ -509,7 +509,7 @@
                 "outcomeId": 3,
                 "outcomeOfInterest": true,
                 "trueEffectSize": null,
-                "priorOutcomeLookback": 30,
+                "priorOutcomeLookback": 99999,
                 "attr_class": "outcome"
               },
               {

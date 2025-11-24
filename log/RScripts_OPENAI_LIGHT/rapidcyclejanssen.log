@@ -37,9 +37,23 @@ The following object is masked from ‘package:CohortGenerator’:
 
     uploadResults
 
+Loading required package: Cyclops
+Loading required package: FeatureExtraction
+Loading required package: Andromeda
+
+Attaching package: ‘CohortMethod’
+
+The following object is masked from ‘package:Strategus’:
+
+    uploadResults
+
+The following objects are masked from ‘package:CohortGenerator’:
+
+    createResultsDataModel, getDataMigrator,
+    getResultsDataModelSpecifications, migrateDataModel, uploadResults
+
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error: object 'oList' not found
-Execution halted
-    ✖ Runner command exited with an error (runner: Rscript)
+Saved Strategus analysis specification to: inst/rapidcyclejanssen/rapidcyclejanssenAnalysisSpecification.json 
+    ✔ Success: rapidcyclejanssen

@@ -37,9 +37,29 @@ The following object is masked from ‘package:CohortGenerator’:
 
     uploadResults
 
+Loading required package: Cyclops
+Loading required package: FeatureExtraction
+Loading required package: Andromeda
+
+Attaching package: ‘CohortMethod’
+
+The following object is masked from ‘package:Strategus’:
+
+    uploadResults
+
+The following objects are masked from ‘package:CohortGenerator’:
+
+    createResultsDataModel, getDataMigrator,
+    getResultsDataModelSpecifications, migrateDataModel, uploadResults
+
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error: object 'cmTcList' not found
+Error in file(file, ifelse(append, "a", "w")) : 
+  cannot open the connection
+Calls: <Anonymous> -> write -> cat -> file
+In addition: Warning message:
+In file(file, ifelse(append, "a", "w")) :
+  cannot open file 'inst/studyName/studyNameAnalysisSpecification.json': No such file or directory
 Execution halted
     ✖ Runner command exited with an error (runner: Rscript)

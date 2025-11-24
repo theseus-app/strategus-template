@@ -53,3 +53,7 @@ results/
 
 # VSCode
 .vscode/
+
+#node
+.env
+node_modules

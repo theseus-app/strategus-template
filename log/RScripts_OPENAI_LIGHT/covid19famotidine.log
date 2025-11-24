@@ -14,8 +14,8 @@ Error installing package 'reticulate':
 ** libs
 using C++ compiler: ‘Apple clang version 17.0.0 (clang-1700.0.13.3)’
 using SDK: ‘MacOSX15.5.sdk’
-clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/2/Rcpp/include' -I/opt/homebrew/opt/gettext/include -I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/xz/include -I/opt/homebrew/include    -fPIC  -g -O2   -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/2/Rcpp/include' -I/opt/homebrew [... truncated] 
+clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew/opt/gettext/include -I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/xz/include -I/opt/homebrew/include    -fPIC  -g -O2   -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew [... truncated] 
 
 Attaching package: ‘dplyr’
 
@@ -55,7 +55,5 @@ The following objects are masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in CohortMethod::createCmAnalysis(analysisId = analysisId, description = sprintf("Study: period %s-%s; TAR: %s; PS: %s",  : 
-  unused argument (targetComparatorOutcomesList = targetComparatorOutcomesList)
-Execution halted
-    ✖ Runner command exited with an error (runner: Rscript)
+Analysis specification saved to: inst/covid19famotidine/covid19famotidineAnalysisSpecification.json
+    ✔ Success: covid19famotidine

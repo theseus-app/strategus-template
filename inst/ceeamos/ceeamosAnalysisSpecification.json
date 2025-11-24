@@ -115,8 +115,10 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: all-all; TAR: 0-0 (cohort start to cohort end); PS: Match PS (ratio=10, caliper=0.2)",
+            "description": "Study: No start-No end; TAR: cohort start to cohort end; PS: PS matching",
             "getDbCohortMethodDataArgs": {
+              "studyStartDate": "",
+              "studyEndDate": "",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
               "restrictToCommonPeriod": false,
@@ -315,7 +317,7 @@
                 "outcomeId": 3,
                 "outcomeOfInterest": true,
                 "trueEffectSize": null,
-                "priorOutcomeLookback": 99999,
+                "priorOutcomeLookback": 365,
                 "attr_class": "outcome"
               },
               {

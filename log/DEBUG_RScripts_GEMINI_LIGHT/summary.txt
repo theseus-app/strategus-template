@@ -1,0 +1,13 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : LIGHT
+Runner     : Rscript
+--------------------------------------
+Total scripts : 0
+Success count : 0
+Fail count    : 0
+Accuracy      : 0%
+
+✅ All scripts executed successfully.
+--------------------------------------
+Logs saved under: log/DEBUG_RScripts_GEMINI_LIGHT

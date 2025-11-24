@@ -1,0 +1,14 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : LIGHT
+Runner     : Rscript
+--------------------------------------
+Total scripts : 4
+Success count : 3
+Fail count    : 1
+Accuracy      : 75.00%
+
+❌ Failed Scripts:
+  - ceeamos
+--------------------------------------
+Logs saved under: log/DEBUG_RScripts_DEEPSEEK_LIGHT

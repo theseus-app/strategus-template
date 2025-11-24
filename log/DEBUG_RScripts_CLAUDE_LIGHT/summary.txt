@@ -1,0 +1,14 @@
+===== R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : LIGHT
+Runner     : Rscript
+--------------------------------------
+Total scripts : 5
+Success count : 4
+Fail count    : 1
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - ranitidinecancer
+--------------------------------------
+Logs saved under: log/DEBUG_RScripts_CLAUDE_LIGHT

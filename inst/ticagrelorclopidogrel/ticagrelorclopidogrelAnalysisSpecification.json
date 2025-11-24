@@ -115,13 +115,13 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_1yr; PS: PS_Match_1to1",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_365; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -309,13 +309,13 @@
           },
           {
             "analysisId": 2,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_1yr; PS: PS_Match_1to10",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_365; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -503,13 +503,13 @@
           },
           {
             "analysisId": 3,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_1yr; PS: PS_Stratify_10",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_365; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -695,13 +695,13 @@
           },
           {
             "analysisId": 4,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_5yr; PS: PS_Match_1to1",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_1825; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -889,13 +889,13 @@
           },
           {
             "analysisId": 5,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_5yr; PS: PS_Match_1to10",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_1825; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -1083,13 +1083,13 @@
           },
           {
             "analysisId": 6,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_5yr; PS: PS_Stratify_10",
+            "description": "Study: 20111101-20190331; TAR: TAR_1_1825; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -1275,13 +1275,13 @@
           },
           {
             "analysisId": 7,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_cohortEnd; PS: PS_Match_1to1",
+            "description": "Study: 20111101-20190331; TAR: TAR_on_treatment; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -1469,13 +1469,13 @@
           },
           {
             "analysisId": 8,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_cohortEnd; PS: PS_Match_1to10",
+            "description": "Study: 20111101-20190331; TAR: TAR_on_treatment; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -1663,13 +1663,13 @@
           },
           {
             "analysisId": 9,
-            "description": "Study: 20111101 to 20190331; TAR: TAR_cohortEnd; PS: PS_Stratify_10",
+            "description": "Study: 20111101-20190331; TAR: TAR_on_treatment; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20111101",
               "studyEndDate": "20190331",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -1855,13 +1855,13 @@
           },
           {
             "analysisId": 10,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_1yr; PS: PS_Match_1to1",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_365; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -2049,13 +2049,13 @@
           },
           {
             "analysisId": 11,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_1yr; PS: PS_Match_1to10",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_365; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -2243,13 +2243,13 @@
           },
           {
             "analysisId": 12,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_1yr; PS: PS_Stratify_10",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_365; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -2435,13 +2435,13 @@
           },
           {
             "analysisId": 13,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_5yr; PS: PS_Match_1to1",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_1825; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -2629,13 +2629,13 @@
           },
           {
             "analysisId": 14,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_5yr; PS: PS_Match_1to10",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_1825; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -2823,13 +2823,13 @@
           },
           {
             "analysisId": 15,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_5yr; PS: PS_Stratify_10",
+            "description": "Study: 20130301-20161231; TAR: TAR_1_1825; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -3015,13 +3015,13 @@
           },
           {
             "analysisId": 16,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_cohortEnd; PS: PS_Match_1to1",
+            "description": "Study: 20130301-20161231; TAR: TAR_on_treatment; PS: match_1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -3209,13 +3209,13 @@
           },
           {
             "analysisId": 17,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_cohortEnd; PS: PS_Match_1to10",
+            "description": "Study: 20130301-20161231; TAR: TAR_on_treatment; PS: match_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -3403,13 +3403,13 @@
           },
           {
             "analysisId": 18,
-            "description": "Study: 20130301 to 20161231; TAR: TAR_cohortEnd; PS: PS_Stratify_10",
+            "description": "Study: 20130301-20161231; TAR: TAR_on_treatment; PS: stratify_10",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130301",
               "studyEndDate": "20161231",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -3619,7 +3619,7 @@
                 "attr_class": "outcome"
               }
             ],
-            "excludedCovariateConceptIds": [],
+            "excludedCovariateConceptIds": ["NA", "NA"],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

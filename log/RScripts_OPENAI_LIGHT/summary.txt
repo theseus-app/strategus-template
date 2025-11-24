@@ -4,18 +4,12 @@ Size       : LIGHT
 Runner     : Rscript
 --------------------------------------
 Total scripts : 11
-Success count : 3
-Fail count    : 8
-Accuracy      : 27.27%
+Success count : 9
+Fail count    : 2
+Accuracy      : 81.82%
 
 ❌ Failed Scripts:
-  - antivegfkidney
   - corazon
-  - covid19famotidine
-  - ranitidinecancer
-  - rapidcyclejanssen
-  - semaglutideandnaion
   - strokerisk
-  - tramadolcodein
 --------------------------------------
 Logs saved under: log/RScripts_OPENAI_LIGHT

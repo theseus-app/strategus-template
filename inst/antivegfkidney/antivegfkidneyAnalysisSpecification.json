@@ -115,13 +115,13 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: -; TAR: Main TAR; PS: PS Matching",
+            "description": "Study: -; TAR: TAR_0_to_0_cohortStart_cohortEnd; PS: match_on_ps",
             "getDbCohortMethodDataArgs": {
-              "studyStartDate": "",
-              "studyEndDate": "",
+              "studyStartDate": null,
+              "studyEndDate": null,
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -333,6 +333,7 @@
                 "attr_class": "outcome"
               }
             ],
+            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

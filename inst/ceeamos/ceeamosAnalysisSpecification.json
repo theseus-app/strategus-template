@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: No start-No end; TAR: cohort start to cohort end; PS: PS matching",
+            "description": "Study: NoStart-NoEnd; TAR: Tar1; PS: MatchOnPs",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "",
               "studyEndDate": "",
@@ -179,7 +179,7 @@
               "priorOutcomeLookback": 365,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
-              "riskWindowStart": 0,
+              "riskWindowStart": 1,
               "startAnchor": "cohort start",
               "riskWindowEnd": 0,
               "endAnchor": "cohort end",
@@ -263,7 +263,7 @@
             },
             "fitOutcomeModelArgs": {
               "modelType": "cox",
-              "stratified": false,
+              "stratified": true,
               "useCovariates": false,
               "inversePtWeighting": false,
               "profileBounds": [-2.3026, 2.3026],
@@ -333,7 +333,6 @@
                 "attr_class": "outcome"
               }
             ],
-            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

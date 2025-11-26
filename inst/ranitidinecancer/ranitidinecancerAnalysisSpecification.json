@@ -122,7 +122,7 @@
                 "outcomeId": 3,
                 "outcomeOfInterest": true,
                 "trueEffectSize": null,
-                "priorOutcomeLookback": 365,
+                "priorOutcomeLookback": 99999,
                 "attr_class": "outcome"
               },
               {

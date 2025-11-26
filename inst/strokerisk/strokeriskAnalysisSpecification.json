@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20010101-20171231; TAR: Main TAR; PS: No matching",
+            "description": "Study: 20010101-20171231; TAR: Tar1; PS: NoPsAdjustment",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
               "studyEndDate": "20171231",
@@ -171,11 +171,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -211,7 +211,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,
@@ -227,11 +227,6 @@
                 "attr_class": "cyclopsControl"
               },
               "estimator": "att",
-              "attr_class": "args"
-            },
-            "stratifyByPsArgs": {
-              "numberOfStrata": 5,
-              "baseSelection": "all",
               "attr_class": "args"
             },
             "computeSharedCovariateBalanceArgs": {
@@ -261,7 +256,7 @@
             },
             "fitOutcomeModelArgs": {
               "modelType": "cox",
-              "stratified": true,
+              "stratified": false,
               "useCovariates": false,
               "inversePtWeighting": false,
               "profileBounds": [-2.3026, 2.3026],
@@ -307,7 +302,7 @@
           },
           {
             "analysisId": 2,
-            "description": "Study: 20010101-20171231; TAR: Main TAR; PS: 1:1 matching",
+            "description": "Study: 20010101-20171231; TAR: Tar1; PS: Match1to1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
               "studyEndDate": "20171231",
@@ -363,11 +358,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -403,7 +398,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,
@@ -501,7 +496,7 @@
           },
           {
             "analysisId": 3,
-            "description": "Study: 20010101-20171231; TAR: Main TAR; PS: 1:10 matching",
+            "description": "Study: 20010101-20171231; TAR: Tar1; PS: MatchVarRatio",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
               "studyEndDate": "20171231",
@@ -557,11 +552,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -597,7 +592,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,
@@ -695,10 +690,10 @@
           },
           {
             "analysisId": 4,
-            "description": "Study: 20010101-20151130; TAR: Main TAR; PS: No matching",
+            "description": "Study: 20010101-20150930; TAR: Tar1; PS: NoPsAdjustment",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
-              "studyEndDate": "20151130",
+              "studyEndDate": "20150930",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
               "restrictToCommonPeriod": false,
@@ -751,11 +746,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -791,7 +786,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,
@@ -807,11 +802,6 @@
                 "attr_class": "cyclopsControl"
               },
               "estimator": "att",
-              "attr_class": "args"
-            },
-            "stratifyByPsArgs": {
-              "numberOfStrata": 5,
-              "baseSelection": "all",
               "attr_class": "args"
             },
             "computeSharedCovariateBalanceArgs": {
@@ -841,7 +831,7 @@
             },
             "fitOutcomeModelArgs": {
               "modelType": "cox",
-              "stratified": true,
+              "stratified": false,
               "useCovariates": false,
               "inversePtWeighting": false,
               "profileBounds": [-2.3026, 2.3026],
@@ -887,10 +877,10 @@
           },
           {
             "analysisId": 5,
-            "description": "Study: 20010101-20151130; TAR: Main TAR; PS: 1:1 matching",
+            "description": "Study: 20010101-20150930; TAR: Tar1; PS: Match1to1",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
-              "studyEndDate": "20151130",
+              "studyEndDate": "20150930",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
               "restrictToCommonPeriod": false,
@@ -943,11 +933,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -983,7 +973,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,
@@ -1081,10 +1071,10 @@
           },
           {
             "analysisId": 6,
-            "description": "Study: 20010101-20151130; TAR: Main TAR; PS: 1:10 matching",
+            "description": "Study: 20010101-20150930; TAR: Tar1; PS: MatchVarRatio",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20010101",
-              "studyEndDate": "20151130",
+              "studyEndDate": "20150930",
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
               "restrictToCommonPeriod": false,
@@ -1137,11 +1127,11 @@
               "attr_class": "args"
             },
             "createStudyPopArgs": {
-              "firstExposureOnly": false,
+              "firstExposureOnly": true,
               "restrictToCommonPeriod": false,
-              "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
-              "removeSubjectsWithPriorOutcome": true,
+              "washoutPeriod": 183,
+              "removeDuplicateSubjects": "keep first",
+              "removeSubjectsWithPriorOutcome": false,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
               "maxDaysAtRisk": 99999,
@@ -1177,7 +1167,7 @@
                 "gridSteps": 10,
                 "minCVData": 100,
                 "cvRepetitions": 10,
-                "noiseLevel": "quiet",
+                "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
                 "resetCoefficients": true,

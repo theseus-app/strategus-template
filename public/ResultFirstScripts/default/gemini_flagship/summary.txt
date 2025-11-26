@@ -1,0 +1,21 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : FLAGSHIP
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 8
+Fail count    : 7
+Accuracy      : 53.33%
+
+❌ Failed Scripts:
+  - corazon
+  - covid19ppiandh2ra
+  - doacsandwarfarin
+  - iudehre
+  - legendt2dm
+  - ranitidinecancer
+  - strokerisk
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/default/gemini_flagship/logs

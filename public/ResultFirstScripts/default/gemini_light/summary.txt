@@ -1,0 +1,22 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 7
+Fail count    : 8
+Accuracy      : 46.67%
+
+❌ Failed Scripts:
+  - antivegfkidney
+  - covid19ppiandh2ra
+  - doacsandwarfarin
+  - iudehre
+  - legendt2dm
+  - ranitidinecancer
+  - rapidcyclejanssen
+  - strokerisk
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/default/gemini_light/logs

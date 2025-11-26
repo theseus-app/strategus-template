@@ -1,0 +1,14 @@
+===== Debug R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : FLAGSHIP
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 4
+Success count : 4
+Fail count    : 0
+Accuracy      : 100.00%
+
+✅ All scripts executed successfully.
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/default/claude_flagship/logs

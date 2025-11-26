@@ -1,0 +1,96 @@
+{
+  "createdAt": "2025-11-26T07:58:46.625Z",
+  "totalCases": 15,
+  "results": [
+    {
+      "name": "AntiVEGFKidney",
+      "fileName": "antivegfkidney.R",
+      "createdAt": "2025-11-26T07:49:35.542Z",
+      "savedPath": "public/firstScripts/default/claude_light/antivegfkidney.R"
+    },
+    {
+      "name": "CEEAMOS",
+      "fileName": "ceeamos.R",
+      "createdAt": "2025-11-26T07:50:16.158Z",
+      "savedPath": "public/firstScripts/default/claude_light/ceeamos.R"
+    },
+    {
+      "name": "CORAZON",
+      "fileName": "corazon.R",
+      "createdAt": "2025-11-26T07:50:53.135Z",
+      "savedPath": "public/firstScripts/default/claude_light/corazon.R"
+    },
+    {
+      "name": "COVID19Famotidine",
+      "fileName": "covid19famotidine.R",
+      "createdAt": "2025-11-26T07:51:37.589Z",
+      "savedPath": "public/firstScripts/default/claude_light/covid19famotidine.R"
+    },
+    {
+      "name": "COVID19PPIandH2RA",
+      "fileName": "covid19ppiandh2ra.R",
+      "createdAt": "2025-11-26T07:52:15.647Z",
+      "savedPath": "public/firstScripts/default/claude_light/covid19ppiandh2ra.R"
+    },
+    {
+      "name": "DOACsandWarfarin",
+      "fileName": "doacsandwarfarin.R",
+      "createdAt": "2025-11-26T07:52:55.611Z",
+      "savedPath": "public/firstScripts/default/claude_light/doacsandwarfarin.R"
+    },
+    {
+      "name": "IUDEHRE",
+      "fileName": "iudehre.R",
+      "createdAt": "2025-11-26T07:53:31.039Z",
+      "savedPath": "public/firstScripts/default/claude_light/iudehre.R"
+    },
+    {
+      "name": "LEGENDT2DM",
+      "fileName": "legendt2dm.R",
+      "createdAt": "2025-11-26T07:54:08.118Z",
+      "savedPath": "public/firstScripts/default/claude_light/legendt2dm.R"
+    },
+    {
+      "name": "RanitidineCancer",
+      "fileName": "ranitidinecancer.R",
+      "createdAt": "2025-11-26T07:54:56.419Z",
+      "savedPath": "public/firstScripts/default/claude_light/ranitidinecancer.R"
+    },
+    {
+      "name": "RapidCycleJanssen",
+      "fileName": "rapidcyclejanssen.R",
+      "createdAt": "2025-11-26T07:55:32.696Z",
+      "savedPath": "public/firstScripts/default/claude_light/rapidcyclejanssen.R"
+    },
+    {
+      "name": "SemaglutideandNAION",
+      "fileName": "semaglutideandnaion.R",
+      "createdAt": "2025-11-26T07:56:12.740Z",
+      "savedPath": "public/firstScripts/default/claude_light/semaglutideandnaion.R"
+    },
+    {
+      "name": "StrokeRisk",
+      "fileName": "strokerisk.R",
+      "createdAt": "2025-11-26T07:56:52.972Z",
+      "savedPath": "public/firstScripts/default/claude_light/strokerisk.R"
+    },
+    {
+      "name": "TicagrelorClopidogrel",
+      "fileName": "ticagrelorclopidogrel.R",
+      "createdAt": "2025-11-26T07:57:33.985Z",
+      "savedPath": "public/firstScripts/default/claude_light/ticagrelorclopidogrel.R"
+    },
+    {
+      "name": "TramadolCodein",
+      "fileName": "tramadolcodein.R",
+      "createdAt": "2025-11-26T07:58:10.499Z",
+      "savedPath": "public/firstScripts/default/claude_light/tramadolcodein.R"
+    },
+    {
+      "name": "UveitisSafety",
+      "fileName": "uveitissafety.R",
+      "createdAt": "2025-11-26T07:58:46.625Z",
+      "savedPath": "public/firstScripts/default/claude_light/uveitissafety.R"
+    }
+  ]
+}

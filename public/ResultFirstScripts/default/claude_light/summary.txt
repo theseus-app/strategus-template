@@ -1,0 +1,18 @@
+===== R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 11
+Fail count    : 4
+Accuracy      : 73.33%
+
+❌ Failed Scripts:
+  - covid19ppiandh2ra
+  - legendt2dm
+  - ranitidinecancer
+  - semaglutideandnaion
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/default/claude_light/logs

@@ -1,0 +1,17 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 12
+Fail count    : 3
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - legendt2dm
+  - ranitidinecancer
+  - semaglutideandnaion
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/gemini_light/logs

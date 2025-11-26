@@ -1,0 +1,19 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : FLAGSHIP
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 10
+Fail count    : 5
+Accuracy      : 66.67%
+
+❌ Failed Scripts:
+  - antivegfkidney
+  - ceeamos
+  - legendt2dm
+  - tramadolcodein
+  - uveitissafety
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/deepseek_flagship/logs

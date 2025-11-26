@@ -1,0 +1,15 @@
+===== Debug R Script Execution Summary =====
+Vendor     : CLAUDE
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 3
+Success count : 2
+Fail count    : 1
+Accuracy      : 66.67%
+
+❌ Failed Scripts:
+  - uveitissafety
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/primary/claude_light/logs

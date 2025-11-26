@@ -1,0 +1,14 @@
+===== Debug R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : FLAGSHIP
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 2
+Success count : 2
+Fail count    : 0
+Accuracy      : 100.00%
+
+✅ All scripts executed successfully.
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/primary/gemini_flagship/logs

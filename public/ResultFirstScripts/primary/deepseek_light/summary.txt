@@ -1,0 +1,21 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 8
+Fail count    : 7
+Accuracy      : 53.33%
+
+❌ Failed Scripts:
+  - antivegfkidney
+  - ceeamos
+  - doacsandwarfarin
+  - legendt2dm
+  - ranitidinecancer
+  - rapidcyclejanssen
+  - uveitissafety
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/deepseek_light/logs

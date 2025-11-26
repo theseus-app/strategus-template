@@ -1,0 +1,14 @@
+===== Debug R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : FLAGSHIP
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 6
+Success count : 6
+Fail count    : 0
+Accuracy      : 100.00%
+
+✅ All scripts executed successfully.
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/default/openai_flagship/logs

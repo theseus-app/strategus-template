@@ -1,0 +1,17 @@
+===== R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : FLAGSHIP
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 12
+Fail count    : 3
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - doacsandwarfarin
+  - legendt2dm
+  - ticagrelorclopidogrel
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/openai_flagship/logs

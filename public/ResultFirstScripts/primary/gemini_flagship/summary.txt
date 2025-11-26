@@ -1,0 +1,16 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : FLAGSHIP
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 13
+Fail count    : 2
+Accuracy      : 86.67%
+
+❌ Failed Scripts:
+  - legendt2dm
+  - semaglutideandnaion
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/gemini_flagship/logs

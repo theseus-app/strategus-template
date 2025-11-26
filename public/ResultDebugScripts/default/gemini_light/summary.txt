@@ -1,0 +1,16 @@
+===== Debug R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 8
+Success count : 6
+Fail count    : 2
+Accuracy      : 75.00%
+
+❌ Failed Scripts:
+  - iudehre
+  - ranitidinecancer
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/default/gemini_light/logs

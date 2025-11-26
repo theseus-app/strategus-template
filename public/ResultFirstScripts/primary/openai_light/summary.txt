@@ -1,0 +1,15 @@
+===== R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 14
+Fail count    : 1
+Accuracy      : 93.33%
+
+❌ Failed Scripts:
+  - legendt2dm
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/primary/openai_light/logs

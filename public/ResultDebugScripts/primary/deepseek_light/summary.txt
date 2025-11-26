@@ -1,0 +1,17 @@
+===== Debug R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 7
+Success count : 4
+Fail count    : 3
+Accuracy      : 57.14%
+
+❌ Failed Scripts:
+  - doacsandwarfarin
+  - legendt2dm
+  - rapidcyclejanssen
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/primary/deepseek_light/logs

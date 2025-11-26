@@ -1,0 +1,14 @@
+===== Debug R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 5
+Success count : 5
+Fail count    : 0
+Accuracy      : 100.00%
+
+✅ All scripts executed successfully.
+--------------------------------------
+Logs saved under: public/ResultDebugScripts/default/deepseek_light/logs

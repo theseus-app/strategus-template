@@ -1,0 +1,19 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : FLAGSHIP
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 10
+Fail count    : 5
+Accuracy      : 66.67%
+
+❌ Failed Scripts:
+  - covid19ppiandh2ra
+  - doacsandwarfarin
+  - legendt2dm
+  - ranitidinecancer
+  - strokerisk
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/default/deepseek_flagship/logs

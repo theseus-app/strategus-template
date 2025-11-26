@@ -1,0 +1,21 @@
+===== R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 15
+Success count : 8
+Fail count    : 7
+Accuracy      : 53.33%
+
+❌ Failed Scripts:
+  - ceeamos
+  - covid19ppiandh2ra
+  - doacsandwarfarin
+  - legendt2dm
+  - ranitidinecancer
+  - strokerisk
+  - tramadolcodein
+--------------------------------------
+Logs saved under: public/ResultFirstScripts/default/openai_light/logs

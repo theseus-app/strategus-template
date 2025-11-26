@@ -7,14 +7,16 @@ import { debugStrategusScript } from "./json2strategus";
 
 type Vendor = "OPENAI" | "CLAUDE" | "GEMINI" | "DEEPSEEK";
 type ModelSize = "FLAGSHIP" | "LIGHT";
+type RunType = "DEFAULT" | "PRIMARY";
 
 interface CliArgs {
     vendor: Vendor;
     size: ModelSize;
+    type: RunType;
 }
 
 /**
- * CLI 인자 파싱: --vendor=OPENAI --size=LIGHT
+ * CLI 인자 파싱: --vendor=OPENAI --size=LIGHT --type=DEFAULT|PRIMARY
  */
 function parseCliArgs(): CliArgs {
     const args = process.argv.slice(2);
@@ -29,13 +31,27 @@ function parseCliArgs(): CliArgs {
 
     const vendor = kv.vendor as Vendor | undefined;
     const size = kv.size as ModelSize | undefined;
+    const type = kv.type as RunType | undefined;
 
-    if (!vendor || !size) {
-        console.error("Usage: debug_failed_rscripts --vendor=<OPENAI|CLAUDE|GEMINI|DEEPSEEK> --size=<FLAGSHIP|LIGHT>");
+    if (!vendor || !size || !type) {
+        console.error(
+            "Usage: debug_failed_rscripts --vendor=<OPENAI|CLAUDE|GEMINI|DEEPSEEK> --size=<FLAGSHIP|LIGHT> --type=<DEFAULT|PRIMARY>",
+        );
         process.exit(1);
     }
 
-    return { vendor, size };
+    const vendorSet: Vendor[] = ["OPENAI", "CLAUDE", "GEMINI", "DEEPSEEK"];
+    const sizeSet: ModelSize[] = ["FLAGSHIP", "LIGHT"];
+    const typeSet: RunType[] = ["DEFAULT", "PRIMARY"];
+
+    if (!vendorSet.includes(vendor) || !sizeSet.includes(size) || !typeSet.includes(type)) {
+        console.error(
+            `Invalid vendor/size/type. vendor=${vendor}, size=${size}, type=${type}`,
+        );
+        process.exit(1);
+    }
+
+    return { vendor, size, type };
 }
 
 /**
@@ -67,22 +83,133 @@ function parseFailedScripts(summaryText: string): string[] {
     return failed;
 }
 
+// ===== 429 / 네트워크 에러 대비 helper =====
+const MAX_RETRIES = 5;
+const BASE_DELAY_MS = 2000; // 1st retry 2s
+const JITTER_MS = 500;
+
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+function isRateLimitOrRetriableError(err: any): boolean {
+    const status =
+        err?.status ??
+        err?.statusCode ??
+        err?.response?.status ??
+        err?.response?.statusCode ??
+        null;
+
+    if (status === 429) return true;
+    if (status && typeof status === "number" && status >= 500) return true;
+
+    const msg = String(err?.message ?? err ?? "").toLowerCase();
+    if (msg.includes("rate limit") || msg.includes("too many requests")) return true;
+    if (msg.includes("ecconnreset") || msg.includes("etimedout") || msg.includes("enotfound")) return true;
+
+    return false;
+}
+
+async function safeDebugStrategusScript(params: {
+    originalScript: string;
+    errorLog: string;
+    vendor: Vendor;
+    size: ModelSize;
+    name: string;
+}): Promise<string> {
+    const { originalScript, errorLog, vendor, size, name } = params;
+    let lastError: any = null;
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        if (attempt > 0) {
+            const delay =
+                BASE_DELAY_MS * Math.pow(2, attempt - 1) + Math.random() * JITTER_MS;
+            console.warn(
+                `[WARN] ${name}: retrying debugStrategusScript (attempt ${
+                    attempt + 1
+                }/${MAX_RETRIES}) after ${Math.round(delay)} ms ...`,
+            );
+            await sleep(delay);
+        }
+
+        try {
+            const fixedScript = await debugStrategusScript({
+                originalScript,
+                errorLog,
+                vendor,
+                size,
+            });
+            return fixedScript;
+        } catch (err: any) {
+            lastError = err;
+            const retriable = isRateLimitOrRetriableError(err);
+            const isLast = attempt === MAX_RETRIES - 1;
+
+            if (!retriable || isLast) {
+                console.error(
+                    `[ERROR] ${name}: debugStrategusScript failed (attempt ${
+                        attempt + 1
+                    }/${MAX_RETRIES}) → giving up.`,
+                );
+                throw err;
+            } else {
+                console.warn(
+                    `[WARN] ${name}: debugStrategusScript failed (attempt ${
+                        attempt + 1
+                    }/${MAX_RETRIES}) – ${String(err?.message ?? err)}`,
+                );
+            }
+        }
+    }
+
+    throw lastError ?? new Error("debugStrategusScript failed after retries");
+}
+
 async function main() {
-    const { vendor, size } = parseCliArgs();
+    const { vendor, size, type } = parseCliArgs();
 
     const baseDir = process.cwd();
-    const scriptDir = path.join(baseDir, `RScripts_${vendor}_${size}`);
-    const logDir = path.join(baseDir, "log", `RScripts_${vendor}_${size}`);
-    const summaryPath = path.join(logDir, "summary.txt");
 
-    // NEW: 디버그 결과 저장 폴더
-    const debugDir = path.join(baseDir, `DEBUG_RScripts_${vendor}_${size}`);
+    const vendorLower = vendor.toLowerCase();
+    const sizeLower = size.toLowerCase();
+    const typeLower = type.toLowerCase();
+
+    // run_rscripts.sh 기준 경로:
+    //   input R scripts: public/firstScripts/{type}/{vendor_lower}_{size_lower}
+    //   logs + summary : public/ResultFirstScripts/{type}/{vendor_lower}_{size_lower}
+    // 여기서는 실패한 애들만 디버깅해서:
+    //   debug scripts:  public/DebugScripts/{type}/{vendor_lower}_{size_lower}
+    const scriptDir = path.join(
+        baseDir,
+        "public",
+        "firstScripts",
+        typeLower,
+        `${vendorLower}_${sizeLower}`,
+    );
+    const resultRoot = path.join(
+        baseDir,
+        "public",
+        "ResultFirstScripts",
+        typeLower,
+        `${vendorLower}_${sizeLower}`,
+    );
+    const logDir = path.join(resultRoot, "logs");
+    const summaryPath = path.join(resultRoot, "summary.txt");
+    const debugDir = path.join(
+        baseDir,
+        "public",
+        "DebugScripts",
+        typeLower,
+        `${vendorLower}_${sizeLower}`,
+    );
+
     await fs.mkdir(debugDir, { recursive: true });
 
-    console.log(`==> Vendor: ${vendor}, Size: ${size}`);
-    console.log(`==> Script dir: ${scriptDir}`);
-    console.log(`==> Log dir   : ${logDir}`);
-    console.log(`==> Debug dir : ${debugDir}`);
+    console.log(`==> Vendor : ${vendor}`);
+    console.log(`==> Size   : ${size}`);
+    console.log(`==> Type   : ${type}`);
+    console.log(`==> Script dir : ${scriptDir}`);
+    console.log(`==> Log dir    : ${logDir}`);
+    console.log(`==> Summary    : ${summaryPath}`);
+    console.log(`==> Debug dir  : ${debugDir}`);
 
     // summary.txt 읽기
     let summary: string;
@@ -133,11 +260,12 @@ async function main() {
         }
 
         try {
-            const fixedScript = await debugStrategusScript({
+            const fixedScript = await safeDebugStrategusScript({
                 originalScript,
                 errorLog,
                 vendor,
                 size,
+                name,
             });
 
             await fs.writeFile(outputPath, fixedScript, "utf8");

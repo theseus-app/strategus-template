@@ -1,6 +1,30 @@
 StrategusStudyRepoTemplate
 =================
 
+## Rule-Based Pipeline (StudyDTO -> R -> analysisSpecification.json)
+
+Use this when you want deterministic, non-LLM generation from the gold standard StudyDTO JSON exports.
+
+1) Generate R from a gold standard JSON export:
+```
+node --experimental-strip-types json2strategus.ts public/goldStandard/default/AntiVEGFKidney.ts --rule-based --output-json generated_json/analysisSpec/antivegfkidneyAnalysisSpecification.json
+```
+This writes:
+- `generated_r/rule_based/antivegfkidney_CreateStrategusAnalysisSpecification_rulebased.R`
+
+2) Run the generated R script to produce the JSON:
+```
+RENV_CONFIG_AUTOLOADER_ENABLED=FALSE \
+R_LIBS_USER=renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0 \
+Rscript generated_r/rule_based/antivegfkidney_CreateStrategusAnalysisSpecification_rulebased.R
+```
+This writes:
+- `generated_json/analysisSpec/antivegfkidneyAnalysisSpecification.json`
+
+Notes:
+- Omit `--output-json` to write to `inst/<studyName>/<studyName>AnalysisSpecification.json`.
+- The R script fetches cohort definitions and negative control concepts from `https://atlas-demo.ohdsi.org/WebAPI`, so network access is required.
+
 See the **[Using This Template.md](template_docs/UsingThisTemplate.md)** for more information on how to use this template.
 
 ----
@@ -61,4 +85,3 @@ Can be either:
 
 - `Methods Research` if the study explores a methodological question, for example an evaluation of various propensity score approaches. 
 - `Clinical Application` if the study aims to answer a clinically relevant question, for example 'Does drug A cause outcome B?'.
-

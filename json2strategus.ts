@@ -2,6 +2,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import { pathToFileURL } from "node:url";
+import { studyDtoToR } from "./studyDtoToR.ts";
+import { defaultDTO, fillWithDefaults } from "./studyDto.ts";
 dotenv.config();
 
 const TEMPLATE_PATH = path.resolve(
@@ -22,6 +25,39 @@ export function stripCodeFences(text: string): string {
 
 async function readTextFile(abs: string) {
     return fs.readFile(abs, "utf8");
+}
+
+function slugify(s: string) {
+    return (
+        s
+            .trim()
+            .toLowerCase()
+            .replace(/[\s/\\]+/g, "-")
+            .replace(/[^a-z0-9-_]/g, "")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "") || "case"
+    );
+}
+
+async function loadJsonInput(absInput: string): Promise<{ dto: any; name: string }> {
+    const ext = path.extname(absInput).toLowerCase();
+    if (ext === ".ts" || ext === ".js" || ext === ".mjs" || ext === ".cjs") {
+        const mod = await import(pathToFileURL(absInput).href);
+        const jsonKeys = Object.keys(mod).filter((k) => /^JSON/i.test(k));
+        if (jsonKeys.length !== 1) {
+            throw new Error(
+                `Expected exactly 1 JSON* export in ${absInput}, found ${jsonKeys.length}.`
+            );
+        }
+        const key = jsonKeys[0];
+        const dto = mod[key];
+        const rawName = key.replace(/^JSON/i, "") || path.basename(absInput, ext);
+        return { dto, name: slugify(rawName) };
+    }
+    const jsonText = await readTextFile(absInput);
+    const dto = JSON.parse(jsonText);
+    const rawName = path.basename(absInput, ext);
+    return { dto, name: slugify(rawName) };
 }
 
 // --- 모델 맵 ---
@@ -213,6 +249,110 @@ ${template}
 
     const completionText = await callLLM(prompt, vendor, size);
     return completionText;
+}
+
+async function main() {
+    const args = process.argv.slice(2);
+    let inputPath: string | undefined;
+    let outputPath: string | undefined;
+    let vendor: Vendor | undefined;
+    let size: ModelSize | undefined;
+    let ruleBased = false;
+    let outputJsonPath: string | undefined;
+
+    for (let i = 0; i < args.length; i++) {
+        const arg = args[i];
+        if (arg === "--rule-based") {
+            ruleBased = true;
+            continue;
+        }
+        if (arg === "--vendor") {
+            vendor = args[i + 1] as Vendor;
+            i += 1;
+            continue;
+        }
+        if (arg === "--size") {
+            size = args[i + 1] as ModelSize;
+            i += 1;
+            continue;
+        }
+        if (arg === "--output-json") {
+            outputJsonPath = args[i + 1];
+            i += 1;
+            continue;
+        }
+        if (!inputPath) {
+            inputPath = arg;
+            continue;
+        }
+        if (!outputPath) {
+            outputPath = arg;
+            continue;
+        }
+    }
+
+    if (!inputPath) {
+        console.error(
+            "Usage: <ts runner> json2strategus.ts <input.json|input.ts> [output.R] [--rule-based] [--vendor VENDOR] [--size SIZE] [--output-json <path>]"
+        );
+        process.exit(1);
+    }
+
+    const absInput = path.resolve(process.cwd(), inputPath);
+    const { dto: rawDto, name: inferredName } = await loadJsonInput(absInput);
+    const studyName = inferredName || "studyName";
+
+    let script = "";
+
+    if (ruleBased) {
+        const merged = fillWithDefaults(defaultDTO, rawDto);
+        merged.name = studyName;
+        if (!merged.cohortDefinitions?.targetCohort?.id) {
+            merged.cohortDefinitions = {
+                targetCohort: { id: 1794126, name: "target1" },
+                comparatorCohort: { id: 1794132, name: "comparator1" },
+                outcomeCohort: [{ id: 1794131, name: "outcome1" }],
+            };
+        }
+        if (!merged.negativeControlConceptSet?.id) {
+            merged.negativeControlConceptSet = { id: 1888110, name: "negative" };
+        }
+        script = studyDtoToR(merged, {
+            studyName,
+            outputJsonPath: outputJsonPath,
+        });
+    } else {
+        const chosenVendor = vendor ?? "OPENAI";
+        const chosenSize = size ?? "FLAGSHIP";
+        script = await json2strategus(JSON.stringify(rawDto, null, 2), {
+            vendor: chosenVendor,
+            size: chosenSize,
+        });
+    }
+
+    if (outputPath) {
+        await fs.writeFile(path.resolve(process.cwd(), outputPath), script, "utf8");
+        console.log(`[OK] Wrote ${path.relative(process.cwd(), outputPath)}`);
+        return;
+    }
+
+    if (ruleBased) {
+        const outDir = path.resolve(process.cwd(), "generated_r", "rule_based");
+        await fs.mkdir(outDir, { recursive: true });
+        const outPath = path.join(
+            outDir,
+            `${studyName}_CreateStrategusAnalysisSpecification_rulebased.R`
+        );
+        await fs.writeFile(outPath, script, "utf8");
+        console.log(`[OK] Wrote ${path.relative(process.cwd(), outPath)}`);
+        return;
+    }
+
+    process.stdout.write(script);
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+    void main();
 }
 
 /**

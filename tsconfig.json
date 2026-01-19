@@ -9,6 +9,7 @@
     "types": ["node"]
   },
   "include": [
+    "analysisSpecToR.ts",
     "json2strategus.ts",
     "src/**/*.ts"
   ]

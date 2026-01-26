@@ -1,0 +1,15 @@
+===== R Script Execution Summary =====
+Vendor     : OPENAI
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 5
+Success count : 4
+Fail count    : 1
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - alzheimerdonepezil
+--------------------------------------
+Logs saved under: public/ResultFirstScriptsTest/primary/openai_light/logs

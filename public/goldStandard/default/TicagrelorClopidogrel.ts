@@ -1,13 +1,14 @@
 export const TEXTTicagrelorClopidogrel = `
 Study Period 1: from November 2011 to March 2019.
 Study Period 2: we conducted an additional analysis to apply an identical study period to all databases, namely March 2013 and December2016,b
-
+ 
 TAR 1: Patients were censored when they were no longer observed in the database, while they remained in the primary analysis if they discontinued the allocated drug or switched the drug within the first year.
 TAR 2-3: 2 more time-at-risk windows were applied—a 5-year period and an on-treatment period. The on-treatment period was defined as the time from 1 day after the index date until the end of persistent exposure to the drug, allowing a 7-day gap or the end of a patient’s record.
-
+TAR 4-6: in every analysis, we added sensitivity analyses with a “blanking period” rule that excluded the occurrence of the outcome within the initial 28 days after PCI because such early outcomes may reflect duplicated diagnoses, either due to transfer between hospitals or clinical coding practices.
+ 
 PS Settings 1: The study populations were matched using one-to-one greedy matching of the propensity score.
 PS Settings 2-3: In addition to one-to-one propensity score matching, 2 additional propensity score adjustments were performed: (1) variable-ratio propensity score matching with a maximum ratio of 10; and (2) propensity score stratification using deciles of the propensity score distribution.
-
+ 
 Outcome Model: We used Cox proportional haz ard regression models to estimate the association of expo sures with outcomes
 `
 

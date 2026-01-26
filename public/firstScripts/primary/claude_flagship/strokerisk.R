@@ -1,21 +1,35 @@
 ################################################################################
-# Strategus Analysis Specification for strokerisk Study
+# CreateStrategusAnalysisSpecification.R
 # 
-# This script creates analysis specifications using the OHDSI Strategus package
-# for a comparative effectiveness study examining stroke risk.
-#
+# This script creates the analysis specifications for the "strokerisk" study
+# using the OHDSI Strategus package.
+# 
+# Study Overview:
+# - Target Cohort: target1 (ID: 1794126)
+# - Comparator Cohort: comparator1 (ID: 1794132)
+# - Outcome Cohort: outcome1 (ID: 1794131)
+# - Negative Control Concept Set: negative (ID: 1888110)
+# - Study Period: 2001-01-01 to 2017-12-31
+# - PS Adjustment: Matching with maxRatio=10, caliper=0.2, standardized logit scale
+# - Outcome Model: Cox proportional hazards, stratified
+# 
 # More information about Strategus HADES modules can be found at:
 # https://ohdsi.github.io/Strategus/reference/index.html#omop-cdm-hades-modules.
 ################################################################################
+
 library(dplyr)
 library(Strategus)
 
 # Shared Resources -------------------------------------------------------------
-# Get the list of cohorts from WebAPI
+# Define the base URL for the OHDSI WebAPI to retrieve cohort definitions
 baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 
-# Cohort Definitions
-# Export cohort definitions for target (1794126), comparator (1794132), and outcome (1794131)
+# Cohort Definitions -----------------------------------------------------------
+# Export cohort definitions from ATLAS using the specified cohort IDs
+# These cohorts are defined in the Analysis Specifications:
+# - Target: target1 (ID: 1794126)
+# - Comparator: comparator1 (ID: 1794132)
+# - Outcome: outcome1 (ID: 1794131)
 cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   baseUrl = baseUrl,
   cohortIds = c(
@@ -23,19 +37,23 @@ cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
     1794132, # Comparator: comparator1
     1794131  # Outcome: outcome1
   ),
-  generateStats = TRUE
+
+generateStats = TRUE
 )
 
-# Re-number cohorts to sequential IDs for internal use
-# Target cohort: 1794126 -> 1
+# Re-number cohorts for internal consistency
+# This ensures cohort IDs are sequential and manageable within the analysis
+# Target cohort -> ID 1
+# Comparator cohort -> ID 2
+# Outcome cohort -> ID 3
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126,]$cohortId <- 1
-# Comparator cohort: 1794132 -> 2
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132,]$cohortId <- 2
-# Outcome cohort: 1794131 -> 3
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131,]$cohortId <- 3
 
-# Negative control outcomes
-# Retrieve negative control concept set (ID: 1888110) and create cohort definitions
+# Negative Control Outcomes ----------------------------------------------------
+# Retrieve the negative control concept set from ATLAS
+# Negative controls are used to detect potential systematic bias in the study
+# Concept Set ID: 1888110 (name: negative)
 negativeControlOutcomeCohortSet <- ROhdsiWebApi::getConceptSetDefinition(
   conceptSetId = 1888110,
   baseUrl = baseUrl
@@ -52,23 +70,24 @@ negativeControlOutcomeCohortSet <- ROhdsiWebApi::getConceptSetDefinition(
   mutate(cohortId = row_number() + 100) %>%
   select(cohortId, cohortName, outcomeConceptId)
 
-# Verify no duplicate cohort IDs exist between main cohorts and negative controls
-if (any(duplicated(c(cohortDefinitionSet$cohortId, negativeControlOutcomeCohortSet$cohortId)))) {
+# Validate that there are no duplicate cohort IDs between main cohorts and negative controls
+if (any(duplicated(cohortDefinitionSet$cohortId, negativeControlOutcomeCohortSet$cohortId))) {
   stop("*** Error: duplicate cohort IDs found ***")
 }
 
-# Create data frames to hold the cohorts for analysis -------------------------
-# Outcomes: Define the primary outcome cohort (cohort ID 3)
-# cleanWindow = 365 sets a 365-day clean window for negative controls
+# Create Data Frames for Analysis Cohorts --------------------------------------
+
+# Outcomes data frame
+# Contains the outcome cohort(s) for the study
+# cleanWindow: lookback period for removing subjects with prior outcomes (365 days)
 oList <- cohortDefinitionSet %>%
   filter(.data$cohortId == 3) %>%
   mutate(outcomeCohortId = cohortId, outcomeCohortName = cohortName) %>%
   select(outcomeCohortId, outcomeCohortName) %>%
   mutate(cleanWindow = 365)
 
-# Target and Comparator for the CohortMethod analysis 
-# Target: cohort ID 1 (target1)
-# Comparator: cohort ID 2 (comparator1)
+# Target and Comparator for the CohortMethod analysis
+# Defines the treatment groups being compared
 cmTcList <- data.frame(
   targetCohortId = 1,
   targetCohortName = "target1",
@@ -76,40 +95,39 @@ cmTcList <- data.frame(
   comparatorCohortName = "comparator1"
 )
 
-# For the CohortMethod LSPS (Large Scale Propensity Score) analysis
-# No concepts to exclude are specified in the analysis specifications
-# This data frame is left empty as conceptsToExclude has null id and empty name
+# Excluded Covariate Concepts --------------------------------------------------
+# Note: The Analysis Specifications indicate conceptsToExclude with null/empty values
+# Therefore, we create an empty data frame for excluded covariates
+# If specific concepts needed to be excluded, they would be listed here
 excludedCovariateConcepts <- data.frame(
   conceptId = integer(0),
   conceptName = character(0)
 )
 
-# No concepts to include are specified (conceptsToInclude has null id and empty name)
-# The analysis will use default covariate settings without specific inclusions
-
 # CohortGeneratorModule --------------------------------------------------------
-# Create cohort generator module to generate cohorts from definitions
+# This module generates the cohorts defined above in the target database
 cgModuleSettingsCreator <- CohortGeneratorModule$new()
 
-# Shared resource for main cohort definitions
+# Create shared resource specifications for cohort definitions
 cohortDefinitionShared <- cgModuleSettingsCreator$createCohortSharedResourceSpecifications(cohortDefinitionSet)
 
-# Shared resource for negative control outcome cohorts
-# occurrenceType = "first" means only the first occurrence of the outcome is considered
-# detectOnDescendants = TRUE includes descendant concepts in outcome detection
+# Create shared resource specifications for negative control outcome cohorts
+# occurrenceType = "first": Use only the first occurrence of each negative control outcome
+# detectOnDescendants = TRUE: Include descendant concepts when identifying outcomes
 negativeControlsShared <- cgModuleSettingsCreator$createNegativeControlOutcomeCohortSharedResourceSpecifications(
   negativeControlOutcomeCohortSet = negativeControlOutcomeCohortSet,
   occurrenceType = "first",
   detectOnDescendants = TRUE
 )
 
-# Create module specifications with statistics generation enabled
+# Create module specifications for cohort generation
+# generateStats = TRUE: Generate inclusion rule statistics
 cohortGeneratorModuleSpecifications <- cgModuleSettingsCreator$createModuleSpecifications(
   generateStats = TRUE
 )
 
 # CohortDiagnosticsModule Settings ---------------------------------------------
-# Configure cohort diagnostics to assess cohort quality and characteristics
+# This module runs diagnostic analyses on the generated cohorts
 cdModuleSettingsCreator <- CohortDiagnosticsModule$new()
 cohortDiagnosticsModuleSpecifications <- cdModuleSettingsCreator$createModuleSpecifications(
   cohortIds = cohortDefinitionSet$cohortId,
@@ -126,53 +144,54 @@ cohortDiagnosticsModuleSpecifications <- cdModuleSettingsCreator$createModuleSpe
 )
 
 # CohortMethodModule -----------------------------------------------------------
+# This module performs the comparative cohort analysis using propensity score methods
 
-# Study period settings from analysis specifications
-# studyStartDate: "20010101" (January 1, 2001)
-# studyEndDate: "20171231" (December 31, 2017)
+# Study Periods ----------------------------------------------------------------
+# Define the study observation window
+# From Analysis Specifications:
+# - studyStartDate: "20010101" (January 1, 2001)
+# - studyEndDate: "20171231" (December 31, 2017)
 studyPeriods <- tibble(
   studyStartDate = c("20010101"),
   studyEndDate = c("20171231")
 )
 
-# Time-at-risk (TAR) settings for outcome observation
-# riskWindowStart: 1 day after cohort start
-# startAnchor: "cohort start"
-# riskWindowEnd: 0 days (at cohort end)
-# endAnchor: "cohort end"
-# minDaysAtRisk: 1 day minimum
-# This configuration defines risk from day 1 after cohort start through cohort end
+# Time-at-Risk Settings --------------------------------------------------------
+# Define the time-at-risk windows for outcome assessment
+# From Analysis Specifications (createStudyPopArgs.timeAtRisks):
+# - riskWindowStart: 1 (starts 1 day after anchor)
+# - startAnchor: "cohort start"
+# - riskWindowEnd: 0 (ends at anchor)
+# - endAnchor: "cohort end"
+# - minDaysAtRisk: 1
 timeAtRisks <- tibble(
-  label = c("TAR_1_to_cohort_end"),
+  label = c("TAR: 1d after start to cohort end"),
   riskWindowStart = c(1),
   startAnchor = c("cohort start"),
   riskWindowEnd = c(0),
   endAnchor = c("cohort end")
 )
 
-# Propensity Score settings - match on PS
-# maxRatio: 10 (up to 10 comparator subjects per target subject)
-# caliper: 0.2 (maximum allowed difference in PS)
-# caliperScale: "standardized logit" (standardized scale for matching)
+# Propensity Score Settings - Match on PS --------------------------------------
+# From Analysis Specifications (propensityScoreAdjustment.psSettings.matchOnPsArgs):
+# - maxRatio: 10 (up to 10 comparators matched per target)
+# - caliper: 0.2 (maximum allowed difference in PS)
+# - caliperScale: "standardized logit" (caliper applied on standardized logit scale)
 matchOnPsArgsList <- tibble(
-  label = c("PS_Match_10to1_cal0.2"),
+  label = c("PS Matching: 1:10, caliper 0.2 std logit"),
   maxRatio = c(10),
   caliper = c(0.2),
   caliperScale = c("standardized logit")
 )
 
-# No stratification by PS is specified in the analysis specifications
-# stratifyByPsArgs is set to null in the specifications
-stratifyByPsArgsList <- tibble(
-  label = character(0),
-  numberOfStrata = integer(0),
-  baseSelection = character(0)
-)
+# Note: stratifyByPsArgs is null in the Analysis Specifications
+# Therefore, we do not define stratifyByPsArgsList
 
-# Build a single PS configuration list (each entry has: method, label, params)
+# Build PS Configuration List --------------------------------------------------
+# This list consolidates all propensity score adjustment configurations
 psConfigList <- list()
 
-# Convert matchOnPsArgsList to configuration format
+# Add matching configurations from matchOnPsArgsList
 if (exists("matchOnPsArgsList") && nrow(matchOnPsArgsList) > 0) {
   for (i in seq_len(nrow(matchOnPsArgsList))) {
     psConfigList[[length(psConfigList) + 1]] <- list(
@@ -187,34 +206,25 @@ if (exists("matchOnPsArgsList") && nrow(matchOnPsArgsList) > 0) {
   }
 }
 
-# Convert stratifyByPsArgsList to configuration format (empty in this case)
-if (exists("stratifyByPsArgsList") && nrow(stratifyByPsArgsList) > 0) {
-  for (i in seq_len(nrow(stratifyByPsArgsList))) {
-    psConfigList[[length(psConfigList) + 1]] <- list(
-      method = "stratify",
-      label = stratifyByPsArgsList$label[i],
-      params = list(
-        numberOfStrata = stratifyByPsArgsList$numberOfStrata[i],
-        baseSelection = stratifyByPsArgsList$baseSelection[i]
-      )
-    )
-  }
-}
-
-# Iterate through all analysis setting combinations
+# Iterate Through All Analysis Setting Combinations ----------------------------
+# Build the list of CohortMethod analyses by combining:
+# - Study periods
+# - Time-at-risk windows
+# - Propensity score configurations
 cmAnalysisList <- list()
 analysisId <- 1
 
 for (s in seq_len(nrow(studyPeriods))) {
   studyStartDate <- studyPeriods$studyStartDate[s]
   studyEndDate <- studyPeriods$studyEndDate[s]
-
+  
   for (t in seq_len(nrow(timeAtRisks))) {
-
+    
     for (p in seq_along(psConfigList)) {
       psCfg <- psConfigList[[p]]
       
-      # Configure PS matching or stratification based on method
+      # Configure propensity score adjustment method
+      # Based on Analysis Specifications, we use matching (not stratification)
       if (psCfg$method == "match") {
         matchOnPsArgs <- CohortMethod::createMatchOnPsArgs(
           maxRatio = psCfg$params$maxRatio,
@@ -232,24 +242,28 @@ for (s in seq_len(nrow(studyPeriods))) {
           baseSelection = psCfg$params$baseSelection
         )
       }
-
-      # Covariate settings: use default covariates with descendants for exclusions
-      # No specific concepts to include or exclude (as per specifications)
+      
+      # Covariate Settings ------------------------------------------------------
+      # Use default covariate settings from FeatureExtraction
+      # Note: conceptsToInclude and conceptsToExclude are null/empty in Analysis Specifications
+      # addDescendantsToExclude = TRUE: When excluding concepts, also exclude their descendants
       covariateSettings <- FeatureExtraction::createDefaultCovariateSettings(
         addDescendantsToExclude = TRUE
       )
-
-      # Create outcome list combining outcomes of interest and negative controls
-      # Primary outcome: removeSubjectsWithPriorOutcome = TRUE with 99999 day lookback
+      
+      # Outcome List -----------------------------------------------------------
+      # Create outcome objects for both outcomes of interest and negative controls
       outcomeList <- append(
+        # Outcomes of interest (from oList)
         lapply(seq_len(nrow(oList)), function(i) {
           CohortMethod::createOutcome(
             outcomeId = oList$outcomeCohortId[i],
             outcomeOfInterest = TRUE,
-            trueEffectSize = NA,
-            priorOutcomeLookback = 99999
+            trueEffectSize = NA,  # Unknown true effect size
+            priorOutcomeLookback = 99999  # From Analysis Specifications
           )
         }),
+        # Negative control outcomes (true effect size = 1, i.e., no effect expected)
         lapply(negativeControlOutcomeCohortSet$cohortId, function(i) {
           CohortMethod::createOutcome(
             outcomeId = i,
@@ -259,8 +273,8 @@ for (s in seq_len(nrow(studyPeriods))) {
         })
       )
       
-      # Create target-comparator-outcomes combinations
-      # Excluded covariate concepts: none specified in this analysis
+      # Target-Comparator-Outcomes List ----------------------------------------
+      # Define the combinations of target, comparator, and outcomes
       targetComparatorOutcomesList <- list()
       for (i in seq_len(nrow(cmTcList))) {
         targetComparatorOutcomesList[[i]] <- CohortMethod::createTargetComparatorOutcomes(
@@ -270,28 +284,30 @@ for (s in seq_len(nrow(studyPeriods))) {
           excludedCovariateConceptIds = excludedCovariateConcepts$conceptId
         )
       }
-
-      # Settings for extracting cohort method data
-      # restrictToCommonPeriod: FALSE (as specified)
-      # studyStartDate: "20010101", studyEndDate: "20171231"
-      # maxCohortSize: 0 (no limit on cohort size)
+      
+      # Get Database Cohort Method Data Arguments ------------------------------
+      # From Analysis Specifications (getDbCohortMethodDataArgs):
+      # - studyStartDate: "20010101"
+      # - studyEndDate: "20171231"
+      # - maxCohortSize: 0 (no limit)
       getDbCohortMethodDataArgs <- CohortMethod::createGetDbCohortMethodDataArgs(
-        restrictToCommonPeriod = FALSE,
+        restrictToCommonPeriod = TRUE,
         studyStartDate = studyStartDate,
         studyEndDate = studyEndDate,
         maxCohortSize = 0,
         covariateSettings = covariateSettings
       )
-
-      # Propensity score creation settings
-      # maxCohortSizeForFitting: 250000
-      # errorOnHighCorrelation: TRUE
-      # prior: laplace with cross-validation (useCrossValidation = TRUE)
-      # control: tolerance = 2e-7, cvType = "auto", fold = 10, cvRepetitions = 10
+      
+      # Create Propensity Score Arguments --------------------------------------
+      # From Analysis Specifications (propensityScoreAdjustment.createPsArgs):
+      # - maxCohortSizeForFitting: 250000
+      # - errorOnHighCorrelation: true
+      # - prior: Laplace with cross-validation
+      # - control: tolerance=2e-7, cvType="auto", fold=10, cvRepetitions=10, etc.
       createPsArgs <- CohortMethod::createCreatePsArgs(
         maxCohortSizeForFitting = 250000,
         errorOnHighCorrelation = TRUE,
-        stopOnError = FALSE,
+        stopOnError = FALSE,  # Allow Strategus to complete all operations even if model fitting fails
         estimator = "att",
         prior = Cyclops::createPrior(
           priorType = "laplace",
@@ -304,31 +320,31 @@ for (s in seq_len(nrow(studyPeriods))) {
           seed = 1,
           resetCoefficients = TRUE,
           tolerance = 2e-07,
-          cvRepetitions = 10,
-          startingVariance = 0.01,
-          fold = 10
+          cvRepetitions = 10,  # From Analysis Specifications
+          fold = 10,           # From Analysis Specifications
+          startingVariance = 0.01
         )
       )
-
-      # Covariate balance computation for shared covariates
+      
+      # Compute Covariate Balance Arguments ------------------------------------
+      # Settings for computing covariate balance before and after PS adjustment
       computeSharedCovariateBalanceArgs <- CohortMethod::createComputeCovariateBalanceArgs(
         maxCohortSize = 250000,
         covariateFilter = NULL
       )
-      
-      # Covariate balance computation for Table 1 covariates
       computeCovariateBalanceArgs <- CohortMethod::createComputeCovariateBalanceArgs(
         maxCohortSize = 250000,
         covariateFilter = FeatureExtraction::getDefaultTable1Specifications()
       )
-
-      # Outcome model fitting settings
-      # modelType: "cox" (Cox proportional hazards model)
-      # stratified: TRUE (stratified analysis)
-      # useCovariates: FALSE (no additional covariates in outcome model)
-      # inversePtWeighting: FALSE (no inverse probability of treatment weighting)
-      # prior: laplace with cross-validation
-      # control: tolerance = 2e-7, cvType = "auto", fold = 10, cvRepetitions = 10
+      
+      # Fit Outcome Model Arguments --------------------------------------------
+      # From Analysis Specifications (fitOutcomeModelArgs):
+      # - modelType: "cox" (Cox proportional hazards)
+      # - stratified: true (stratified by matched sets)
+      # - useCovariates: false
+      # - inversePtWeighting: false
+      # - prior: Laplace with cross-validation
+      # - control: tolerance=2e-7, cvType="auto", fold=10, cvRepetitions=10, etc.
       fitOutcomeModelArgs <- CohortMethod::createFitOutcomeModelArgs(
         modelType = "cox",
         stratified = TRUE,
@@ -344,22 +360,22 @@ for (s in seq_len(nrow(studyPeriods))) {
           resetCoefficients = TRUE,
           startingVariance = 0.01,
           tolerance = 2e-07,
-          cvRepetitions = 10,
-          noiseLevel = "quiet",
-          fold = 10
+          cvRepetitions = 10,  # From Analysis Specifications
+          fold = 10,           # From Analysis Specifications
+          noiseLevel = "quiet"
         )
       )
       
-      # Study population creation settings
-      # restrictToCommonPeriod: FALSE
-      # firstExposureOnly: FALSE
-      # washoutPeriod: 0
-      # removeDuplicateSubjects: "keep all"
-      # censorAtNewRiskWindow: FALSE
-      # removeSubjectsWithPriorOutcome: TRUE
-      # priorOutcomeLookBack: 99999
-      # Risk window: starts 1 day after cohort start, ends at cohort end
-      # minDaysAtRisk: 1
+      # Create Study Population Arguments --------------------------------------
+      # From Analysis Specifications (createStudyPopArgs):
+      # - restrictToCommonPeriod: false
+      # - firstExposureOnly: false
+      # - washoutPeriod: 0
+      # - removeDuplicateSubjects: "keep all"
+      # - censorAtNewRiskWindow: false
+      # - removeSubjectsWithPriorOutcome: true
+      # - priorOutcomeLookBack: 99999
+      # - Time-at-risk settings from timeAtRisks tibble
       createStudyPopArgs <- CohortMethod::createCreateStudyPopulationArgs(
         restrictToCommonPeriod = FALSE,
         firstExposureOnly = FALSE,
@@ -375,8 +391,9 @@ for (s in seq_len(nrow(studyPeriods))) {
         minDaysAtRisk = 1,
         maxDaysAtRisk = 99999
       )
-
-      # Create and append CohortMethod analysis specification
+      
+      # Create CohortMethod Analysis -------------------------------------------
+      # Combine all settings into a single analysis specification
       cmAnalysisList[[analysisId]] <- CohortMethod::createCmAnalysis(
         analysisId = analysisId,
         description = sprintf(
@@ -400,9 +417,7 @@ for (s in seq_len(nrow(studyPeriods))) {
   }
 }
 
-# Create CohortMethod module specifications
-# refitPsForEveryOutcome: FALSE (PS is fit once and reused)
-# refitPsForEveryStudyPopulation: FALSE (PS is fit once and reused)
+# Create CohortMethod Module Specifications ------------------------------------
 cmModuleSettingsCreator <- CohortMethodModule$new()
 cohortMethodModuleSpecifications <- cmModuleSettingsCreator$createModuleSpecifications(
   cmAnalysisList = cmAnalysisList,
@@ -413,8 +428,8 @@ cohortMethodModuleSpecifications <- cmModuleSettingsCreator$createModuleSpecific
   cmDiagnosticThresholds = CohortMethod::createCmDiagnosticThresholds()
 )
 
-# Create the analysis specifications ------------------------------------------
-# Combine all modules into a single analysis specification
+# Create the Analysis Specifications -------------------------------------------
+# Combine all module specifications into a single analysis specification object
 analysisSpecifications <- Strategus::createEmptyAnalysisSpecifications() |>
   Strategus::addSharedResources(cohortDefinitionShared) |>
   Strategus::addSharedResources(negativeControlsShared) |>
@@ -422,7 +437,8 @@ analysisSpecifications <- Strategus::createEmptyAnalysisSpecifications() |>
   Strategus::addModuleSpecifications(cohortDiagnosticsModuleSpecifications) |>
   Strategus::addModuleSpecifications(cohortMethodModuleSpecifications)
 
-# Save analysis specifications to JSON file
+# Save the Analysis Specifications to JSON -------------------------------------
+# The output file will be saved to inst/strokerisk/strokeriskAnalysisSpecification.json
 ParallelLogger::saveSettingsToJson(
   analysisSpecifications,
   file.path("inst", "strokerisk", "strokeriskAnalysisSpecification.json")

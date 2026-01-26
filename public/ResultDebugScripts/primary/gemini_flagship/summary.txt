@@ -5,10 +5,11 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 2
-Success count : 2
-Fail count    : 0
-Accuracy      : 100.00%
+Success count : 1
+Fail count    : 1
+Accuracy      : 50.00%
 
-✅ All scripts executed successfully.
+❌ Failed Scripts:
+  - tramadolcodein
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/primary/gemini_flagship/logs

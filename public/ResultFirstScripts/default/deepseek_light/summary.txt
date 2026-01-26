@@ -10,10 +10,10 @@ Fail count    : 5
 Accuracy      : 66.67%
 
 ❌ Failed Scripts:
+  - ceeamos
   - covid19ppiandh2ra
-  - doacsandwarfarin
-  - legendt2dm
   - ranitidinecancer
   - strokerisk
+  - tramadolcodein
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/default/deepseek_light/logs

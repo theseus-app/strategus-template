@@ -4,8 +4,8 @@ Size       : LIGHT
 Type       : DEFAULT
 Runner     : R
 --------------------------------------
-Total scripts : 7
-Success count : 7
+Total scripts : 3
+Success count : 3
 Fail count    : 0
 Accuracy      : 100.00%
 

@@ -4,13 +4,12 @@ Size       : FLAGSHIP
 Type       : DEFAULT
 Runner     : R
 --------------------------------------
-Total scripts : 7
-Success count : 5
-Fail count    : 2
-Accuracy      : 71.43%
+Total scripts : 3
+Success count : 2
+Fail count    : 1
+Accuracy      : 66.67%
 
 ❌ Failed Scripts:
-  - legendt2dm
   - strokerisk
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/default/gemini_flagship/logs

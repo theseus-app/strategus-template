@@ -37,7 +37,10 @@ The following object is masked from ‘package:CohortGenerator’:
 
     uploadResults
 
-Fetching cohortId: 1794126
-Fetching cohortId: 1794132
-Fetching cohortId: 1794131
-    ✔ Success: corazon
+Error in cgModuleSettingsCreator$createCohortSharedResourceSpecifications(cohortDefinitionSet = cohortDefinitionSet) : 
+  cohortDefinitionSet is not properly defined
+In addition: Warning message:
+In .cohortDefinitionSetHasRequiredColumns(x = x, emitWarning = TRUE) :
+  The following columns were missing in your cohortDefinitionSet: json. A cohortDefinitionSet requires the following columns: cohortId,cohortName,sql,json
+Execution halted
+    ✖ Runner command exited with an error (runner: R)

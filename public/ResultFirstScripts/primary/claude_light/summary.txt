@@ -5,13 +5,11 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 15
-Success count : 12
-Fail count    : 3
-Accuracy      : 80.00%
+Success count : 14
+Fail count    : 1
+Accuracy      : 93.33%
 
 ❌ Failed Scripts:
-  - doacsandwarfarin
-  - legendt2dm
-  - uveitissafety
+  - ranitidinecancer
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/primary/claude_light/logs

@@ -61,18 +61,18 @@ async function loadJsonInput(absInput: string): Promise<{ dto: any; name: string
 }
 
 // --- 모델 맵 ---
-const MODEL_MAP = {
+export const MODEL_MAP = {
     OPENAI: {
-        FLAGSHIP: { name: "gpt-5", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
-        LIGHT: { name: "gpt-5-mini", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        FLAGSHIP: { name: "gpt-5.2-2025-12-11", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
+        LIGHT: { name: "gpt-4.1-2025-04-14", key: process.env.OPENAI_API_KEY ?? "openai-api-key" },
     },
     CLAUDE: {
-        FLAGSHIP: { name: "claude-sonnet-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
-        LIGHT: { name: "claude-haiku-4-5", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        FLAGSHIP: { name: "claude-opus-4-5-20251101", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
+        LIGHT: { name: "claude-haiku-4-5-20251001", key: process.env.CLAUDE_API_KEY ?? "claude-api-key" },
     },
     GEMINI: {
-        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
-        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" },
+        FLAGSHIP: { name: "gemini-2.5-pro", key: process.env.GOOGLE_API_KEY ?? "google_api_key" }, //2025-11 최종 업데이트
+        LIGHT: { name: "gemini-2.5-flash", key: process.env.GOOGLE_API_KEY ?? "google_api_key" }, //2025-12 최종 업데이트
     },
     DEEPSEEK: {
         FLAGSHIP: { name: "deepseek-reasoner", key: process.env.DEEPSEEK_API_KEY ?? "deepseek-api-key" },
@@ -83,8 +83,18 @@ const MODEL_MAP = {
 type Vendor = keyof typeof MODEL_MAP;
 type ModelSize = "FLAGSHIP" | "LIGHT";
 
+// ===== 재시도 로직 =====
+const MAX_RETRIES = 5;
+const BASE_DELAY_MS = 2000;
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+function isRetriableStatus(status: number): boolean {
+    // 429: rate limit, 529: overloaded, 500+: server errors
+    return status === 429 || status === 529 || status >= 500;
+}
+
 /**
- * 공통 LLM 호출 함수
+ * 공통 LLM 호출 함수 (재시도 로직 포함)
  */
 async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise<string> {
     const selected = MODEL_MAP[vendor][size];
@@ -99,6 +109,40 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
 
     console.log(`[callLLM] vendor=${vendor}, size=${size}, model=${selected.name}`);
 
+    let lastError: any = null;
+
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        if (attempt > 0) {
+            const delay = BASE_DELAY_MS * Math.pow(2, attempt - 1) + Math.random() * 500;
+            console.warn(`[callLLM] Retrying (attempt ${attempt + 1}/${MAX_RETRIES}) after ${Math.round(delay)}ms...`);
+            await sleep(delay);
+        }
+
+        try {
+            return await callLLMOnce(prompt, vendor, size, selected);
+        } catch (err: any) {
+            lastError = err;
+            const status = err?.status ?? 0;
+            const msg = String(err?.message ?? "");
+            const statusMatch = msg.match(/API error: (\d+)/);
+            const extractedStatus = statusMatch ? parseInt(statusMatch[1], 10) : status;
+
+            if (isRetriableStatus(extractedStatus)) {
+                console.warn(`[callLLM] Retriable error (status=${extractedStatus}): ${msg}`);
+                if (attempt < MAX_RETRIES - 1) continue;
+            }
+            throw err;
+        }
+    }
+
+    throw lastError ?? new Error("callLLM failed after retries");
+}
+
+/**
+ * 단일 LLM 호출 (재시도 없음)
+ */
+async function callLLMOnce(prompt: string, vendor: Vendor, size: ModelSize, selected: { name: string; key: string }): Promise<string> {
+
     let completionText = "";
 
     if (vendor === "OPENAI") {
@@ -107,6 +151,7 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
         const res = await openai.chat.completions.create({
             model: selected.name,
             messages: [{ role: "user", content: prompt }],
+            temperature: 0,
         });
 
         const msg: any = res.choices[0]?.message;
@@ -131,7 +176,7 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: { maxOutputTokens: 120000 },
+                    generationConfig: { maxOutputTokens: 120000, temperature: 0 },
                 }),
             }
         );
@@ -159,6 +204,7 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
             body: JSON.stringify({
                 model: selected.name,
                 max_tokens: 64000,
+                temperature: 0,
                 messages: [
                     {
                         role: "user",
@@ -183,6 +229,8 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
             console.error("[callLLM][CLAUDE] Empty completion, raw data:", JSON.stringify(data, null, 2));
         }
     } else if (vendor === "DEEPSEEK") {
+        // deepseek-reasoner: max 65536, deepseek-chat: max 8192
+        const deepseekMaxTokens = size === "FLAGSHIP" ? 65536 : 8192;
         const resp = await fetch("https://api.deepseek.com/chat/completions", {
             method: "POST",
             headers: {
@@ -192,6 +240,8 @@ async function callLLM(prompt: string, vendor: Vendor, size: ModelSize): Promise
             body: JSON.stringify({
                 model: selected.name,
                 messages: [{ role: "user", content: prompt }],
+                max_tokens: deepseekMaxTokens,
+                temperature: 0,
                 stream: false,
             }),
         });

@@ -115,13 +115,13 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20171201-20231231; TAR: On Treatment; PS: 1-to-1 Matching",
+            "description": "Study: 20171201-20231231; TAR: Risk window: 1 day to cohort end; PS: Match on PS (1:1, caliper=0.2)",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": 20171201,
               "studyEndDate": 20231231,
               "firstExposureOnly": false,
               "removeDuplicateSubjects": "keep all",
-              "restrictToCommonPeriod": false,
+              "restrictToCommonPeriod": true,
               "washoutPeriod": 0,
               "maxCohortSize": 0,
               "covariateSettings": {
@@ -263,7 +263,7 @@
             },
             "fitOutcomeModelArgs": {
               "modelType": "cox",
-              "stratified": true,
+              "stratified": false,
               "useCovariates": false,
               "inversePtWeighting": false,
               "profileBounds": [-2.3026, 2.3026],

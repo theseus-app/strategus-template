@@ -40,11 +40,4 @@ The following object is masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in file(file, ifelse(append, "a", "w")) : 
-  cannot open the connection
-Calls: <Anonymous> -> write -> cat -> file
-In addition: Warning message:
-In file(file, ifelse(append, "a", "w")) :
-  cannot open file 'inst/legendt2dm/legendt2dmAnalysisSpecification.json': No such file or directory
-Execution halted
-    ✖ Runner command exited with an error (runner: R)
+    ✔ Success: legendt2dm

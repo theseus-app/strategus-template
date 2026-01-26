@@ -38,10 +38,9 @@ The following object is masked from ‘package:CohortGenerator’:
     uploadResults
 
 Fetching cohortId: 1794126
-Fetching cohortId: 1794132
-Fetching cohortId: 1794131
-Error in co(cohortDefinitionSet$cohortId, negativeControlOutcomeCohortSet$cohortId) : 
-  could not find function "co"
-Calls: duplicated
+Error in curl::curl_fetch_memory(url, handle = handle) : 
+  Could not resolve hostname [your-atlas-instance]:
+Could not resolve host: your-atlas-instance
+Calls: <Anonymous> ... request_fetch.write_memory -> <Anonymous> -> raise_libcurl_error
 Execution halted
     ✖ Runner command exited with an error (runner: R)

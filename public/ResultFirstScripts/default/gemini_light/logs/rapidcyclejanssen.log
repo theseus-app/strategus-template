@@ -16,16 +16,6 @@ using C++ compiler: ‘Apple clang version 17.0.0 (clang-1700.0.13.3)’
 using SDK: ‘MacOSX15.5.sdk’
 clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew/opt/gettext/include -I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/xz/include -I/opt/homebrew/include    -fPIC  -g -O2   -c RcppExports.cpp -o RcppExports.o
 clang++ -std=gnu++17 -I"/opt/homebrew/Cellar/r/4.5.1/lib/R/include" -DNDEBUG  -I'/Users/minseongkim/StrategusStudyRepoTemplate/renv/library/macos/R-4.5/aarch64-apple-darwin24.4.0/.renv/1/Rcpp/include' -I/opt/homebrew [... truncated] 
-Loading required package: CohortGenerator
-Loading required package: DatabaseConnector
-Loading required package: R6
-
-Attaching package: ‘Strategus’
-
-The following object is masked from ‘package:CohortGenerator’:
-
-    uploadResults
-
 
 Attaching package: ‘dplyr’
 
@@ -36,6 +26,16 @@ The following objects are masked from ‘package:stats’:
 The following objects are masked from ‘package:base’:
 
     intersect, setdiff, setequal, union
+
+Loading required package: CohortGenerator
+Loading required package: DatabaseConnector
+Loading required package: R6
+
+Attaching package: ‘Strategus’
+
+The following object is masked from ‘package:CohortGenerator’:
+
+    uploadResults
 
 Loading required package: Cyclops
 Loading required package: FeatureExtraction
@@ -55,8 +55,4 @@ The following objects are masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in ROhdsiWebApi::resolveConceptSet(., baseUrl = baseUrl, vocabularyIds = c("SNOMED",  : 
-  unused argument (vocabularyIds = c("SNOMED", "RxNorm", "ATC", "ICD9CM", "ICD10CM", "MedDRA"))
-Calls: %>% ... select -> mutate -> rename -> <Anonymous> -> <Anonymous>
-Execution halted
-    ✖ Runner command exited with an error (runner: R)
+    ✔ Success: rapidcyclejanssen

@@ -37,28 +37,11 @@ The following object is masked from ‘package:CohortGenerator’:
 
     uploadResults
 
+Loading required package: Cyclops
 Loading required package: FeatureExtraction
 Loading required package: Andromeda
 
-Attaching package: ‘CohortDiagnostics’
-
-The following object is masked from ‘package:Strategus’:
-
-    uploadResults
-
-The following objects are masked from ‘package:CohortGenerator’:
-
-    createResultsDataModel, getCohortCounts, getDataMigrator,
-    getResultsDataModelSpecifications, migrateDataModel, uploadResults
-
-Loading required package: Cyclops
-
 Attaching package: ‘CohortMethod’
-
-The following objects are masked from ‘package:CohortDiagnostics’:
-
-    createResultsDataModel, getDataMigrator,
-    getResultsDataModelSpecifications, migrateDataModel, uploadResults
 
 The following object is masked from ‘package:Strategus’:
 

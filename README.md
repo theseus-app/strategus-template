@@ -1,6 +1,193 @@
 StrategusStudyRepoTemplate
 =================
 
+## Pipeline Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              goldStandard                                   │
+│  (StudyDTO - 입력 데이터)                                                    │
+│                                                                             │
+│  public/goldStandard/                                                       │
+│  ├── default/    ← 기본 스키마 (15개 연구)                                    │
+│  ├── primary/    ← 대안 스키마                                               │
+│  ├── method/     ← 메소드 기반 데이터                                         │
+│  └── pdf/        ← PDF 기반 데이터                                           │
+└────────────────────────────────┬────────────────────────────────────────────┘
+                                 │
+                                 ▼
+                      ┌─────────────────────┐
+                      │   json2strategus.ts │
+                      │   (메인 변환 CLI)    │
+                      └──────────┬──────────┘
+                                 │
+           ┌─────────────────────┴─────────────────────┐
+           │                                           │
+           ▼                                           ▼
+┌──────────────────────┐                  ┌───────────────────────┐
+│  --rule-based        │                  │  --vendor X --size Y  │
+│  (결정론적 변환)       │                  │  (LLM 파이프라인)       │
+│                      │                  │                       │
+│  → studyDtoToR.ts    │                  │  → callLLM()          │
+│  → generated_r/      │                  │  → getRScripts.ts     │
+│     rule_based/      │                  │                       │
+└──────────────────────┘                  └───────────┬───────────┘
+                                                      │
+                                                      ▼
+                                   ┌──────────────────────────────────┐
+                                   │          firstScripts            │
+                                   │  (LLM 생성 R 스크립트 출력)         │
+                                   │                                  │
+                                   │  public/firstScripts/            │
+                                   │  ├── default/                    │
+                                   │  │   ├── openai_flagship/        │
+                                   │  │   ├── openai_light/           │
+                                   │  │   ├── gemini_flagship/        │
+                                   │  │   ├── gemini_light/           │
+                                   │  │   ├── claude_flagship/        │
+                                   │  │   ├── claude_light/           │
+                                   │  │   ├── deepseek_flagship/      │
+                                   │  │   └── deepseek_light/         │
+                                   │  └── primary/                    │
+                                   │      └── (동일 구조)              │
+                                   └──────────────────────────────────┘
+```
+
+---
+
+## LLM Batch Processing (getRScripts.ts)
+
+LLM을 사용하여 여러 연구를 일괄 처리하는 명령어입니다.
+
+### goldStandard (기존 15개 연구)
+```bash
+node --experimental-strip-types getRScripts.ts \
+  --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE \
+  --size=FLAGSHIP|LIGHT \
+  --type=DEFAULT|PRIMARY
+```
+출력: `public/firstScripts/{type}/{vendor}_{size}/`
+
+### goldStandardTest (테스트용 5개 연구)
+```bash
+node --experimental-strip-types getRScripts.ts \
+  --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE \
+  --size=FLAGSHIP|LIGHT \
+  --type=DEFAULT|PRIMARY \
+  --source=GOLDSTANDARDTEST
+```
+출력: `public/firstScriptsTest/{type}/{vendor}_{size}/`
+
+### 예시
+```bash
+# goldStandardTest/default를 Claude Light로 처리
+node --experimental-strip-types getRScripts.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+
+# goldStandard/primary를 OpenAI Flagship으로 처리
+node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=FLAGSHIP --type=PRIMARY
+```
+
+| 옵션 | 값 | 설명 |
+|------|-----|------|
+| `--vendor` | OPENAI, GEMINI, DEEPSEEK, CLAUDE | LLM 벤더 |
+| `--size` | FLAGSHIP, LIGHT | 모델 크기 (성능 vs 비용) |
+| `--type` | DEFAULT, PRIMARY | 스키마 타입 |
+| `--source` | GOLDSTANDARD, GOLDSTANDARDTEST | 입력 데이터 소스 (기본값: GOLDSTANDARD) |
+
+---
+
+## Debug Failed Scripts (debug_failed_rscripts.ts)
+
+R 스크립트 실행 중 실패한 스크립트를 LLM으로 디버깅합니다.
+
+### 사용법
+```bash
+node --experimental-strip-types debug_failed_rscripts.ts \
+  --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE \
+  --size=FLAGSHIP|LIGHT \
+  --type=DEFAULT|PRIMARY \
+  [--source=GOLDSTANDARD|GOLDSTANDARDTEST]
+```
+
+### 경로 구조
+| source | 입력 (firstScripts) | 로그 (ResultFirstScripts) | 출력 (DebugScripts) |
+|--------|---------------------|---------------------------|---------------------|
+| GOLDSTANDARD | `public/firstScripts/{type}/{vendor}_{size}/` | `public/ResultFirstScripts/{type}/{vendor}_{size}/` | `public/DebugScripts/{type}/{vendor}_{size}/` |
+| GOLDSTANDARDTEST | `public/firstScriptsTest/{type}/{vendor}_{size}/` | `public/ResultFirstScriptsTest/{type}/{vendor}_{size}/` | `public/DebugScriptsTest/{type}/{vendor}_{size}/` |
+
+### 예시
+```bash
+# goldStandard 실패 스크립트 디버깅
+node --experimental-strip-types debug_failed_rscripts.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT
+
+# goldStandardTest 실패 스크립트 디버깅
+node --experimental-strip-types debug_failed_rscripts.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+```
+
+---
+
+## Run R Scripts (run_rscripts.sh)
+
+생성된 firstScripts R 스크립트를 실행하여 에러 여부를 확인합니다.
+
+### 사용법
+```bash
+./run_rscripts.sh \
+  --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE \
+  --size=FLAGSHIP|LIGHT \
+  --type=DEFAULT|PRIMARY \
+  [--source=GOLDSTANDARD|GOLDSTANDARDTEST] \
+  [--runner=R|Rscript]
+```
+
+### 경로 구조
+| source | 입력 (firstScripts) | 결과 (ResultFirstScripts) |
+|--------|---------------------|---------------------------|
+| GOLDSTANDARD | `public/firstScripts/{type}/{vendor}_{size}/` | `public/ResultFirstScripts/{type}/{vendor}_{size}/` |
+| GOLDSTANDARDTEST | `public/firstScriptsTest/{type}/{vendor}_{size}/` | `public/ResultFirstScriptsTest/{type}/{vendor}_{size}/` |
+
+### 예시
+```bash
+# goldStandard firstScripts 실행
+./run_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT
+
+# goldStandardTest firstScripts 실행
+./run_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+```
+
+---
+
+## Run Debug Scripts (run_debug_rscripts.sh)
+
+디버깅된 DebugScripts R 스크립트를 실행하여 수정 결과를 확인합니다.
+
+### 사용법
+```bash
+./run_debug_rscripts.sh \
+  --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE \
+  --size=FLAGSHIP|LIGHT \
+  --type=DEFAULT|PRIMARY \
+  [--source=GOLDSTANDARD|GOLDSTANDARDTEST] \
+  [--runner=R|Rscript]
+```
+
+### 경로 구조
+| source | 입력 (DebugScripts) | 결과 (ResultDebugScripts) |
+|--------|---------------------|---------------------------|
+| GOLDSTANDARD | `public/DebugScripts/{type}/{vendor}_{size}/` | `public/ResultDebugScripts/{type}/{vendor}_{size}/` |
+| GOLDSTANDARDTEST | `public/DebugScriptsTest/{type}/{vendor}_{size}/` | `public/ResultDebugScriptsTest/{type}/{vendor}_{size}/` |
+
+### 예시
+```bash
+# goldStandard DebugScripts 실행
+./run_debug_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT
+
+# goldStandardTest DebugScripts 실행
+./run_debug_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+```
+
+---
+
 ## Rule-Based Pipeline (StudyDTO -> R -> analysisSpecification.json)
 
 Use this when you want deterministic, non-LLM generation from the gold standard StudyDTO JSON exports.

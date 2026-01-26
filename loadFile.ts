@@ -13,7 +13,7 @@ async function fileExists(abs: string) {
 
 export type ModulePair = { name: string; goldJson: any; studyText?: string; pdfPath?: string };
 
-export async function loadFile(type: string = "DEFAULT"): Promise<ModulePair[]> {
+export async function loadFile(type: string = "DEFAULT", source: string = "goldStandard"): Promise<ModulePair[]> {
 
     // 타입별 폴더 매핑
     const folderMap: Record<string, string> = {
@@ -27,7 +27,9 @@ export async function loadFile(type: string = "DEFAULT"): Promise<ModulePair[]> 
     const folderName = folderMap[upperType] ?? folderMap.DEFAULT;
     const isPdfType = upperType === "PDF";
 
-    const GOLD_DIR = path.resolve(process.cwd(), "public", "goldStandard", folderName);
+    // source 파라미터로 goldStandard 또는 goldStandardTest 선택
+    const sourceFolder = source === "goldStandardTest" ? "goldStandardTest" : "goldStandard";
+    const GOLD_DIR = path.resolve(process.cwd(), "public", sourceFolder, folderName);
 
     const entries = await fs.readdir(GOLD_DIR, { withFileTypes: true });
 

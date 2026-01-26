@@ -3,24 +3,28 @@ set -uo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage: run_rscripts.sh --vendor=NAME --size=NAME --type=DEFAULT|PRIMARY [--runner=R|Rscript]
+Usage: run_rscripts.sh --vendor=NAME --size=NAME --type=DEFAULT|PRIMARY [--source=GOLDSTANDARD|GOLDSTANDARDTEST] [--runner=R|Rscript]
 
 Runs each R script inside:
-  ./public/firstScripts/{type}/{vendor_lower}_{size_lower}
+  ./public/firstScripts/{type}/{vendor_lower}_{size_lower}       (source=GOLDSTANDARD)
+  ./public/firstScriptsTest/{type}/{vendor_lower}_{size_lower}   (source=GOLDSTANDARDTEST)
 and checks whether inst/<script-base-name>/ was created after a successful run.
 
 Logs results and generates summary.txt under:
-  ./public/ResultFirstScripts/{type}/{vendor_lower}_{size_lower}
+  ./public/ResultFirstScripts/{type}/{vendor_lower}_{size_lower}       (source=GOLDSTANDARD)
+  ./public/ResultFirstScriptsTest/{type}/{vendor_lower}_{size_lower}   (source=GOLDSTANDARDTEST)
 
 Examples:
   ./run_rscripts.sh --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT
   ./run_rscripts.sh --vendor=OPENAI --size=LIGHT --type=PRIMARY
+  ./run_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
 USAGE
 }
 
 vendor=""
 size=""
 type_arg=""
+source_arg="GOLDSTANDARD"
 runner="R"   # 기본 runner는 R
 
 while [[ $# -gt 0 ]]; do
@@ -31,6 +35,8 @@ while [[ $# -gt 0 ]]; do
     --size)     shift; size="${1:-}";;
     --type=*)   type_arg="${1#*=}" ;;
     --type)     shift; type_arg="${1:-}";;
+    --source=*) source_arg="${1#*=}" ;;
+    --source)   shift; source_arg="${1:-}";;
     --runner=*) runner="${1#*=}" ;;
     --runner)   shift; runner="${1:-}";;
     -h|--help)  usage; exit 0 ;;
@@ -55,14 +61,25 @@ type_uc=$(to_upper "$type_arg")
 vendor_lc=$(to_lower "$vendor")
 size_lc=$(to_lower "$size")
 type_lc=$(to_lower "$type_arg")
+source_uc=$(to_upper "$source_arg")
+
+# source에 따라 폴더명 결정
+if [[ "$source_uc" == "GOLDSTANDARDTEST" ]]; then
+  script_folder="firstScriptsTest"
+  result_folder="ResultFirstScriptsTest"
+else
+  script_folder="firstScripts"
+  result_folder="ResultFirstScripts"
+fi
 
 # 입력 R 스크립트 위치
-input_dir="public/firstScripts/${type_lc}/${vendor_lc}_${size_lc}"
+input_dir="public/${script_folder}/${type_lc}/${vendor_lc}_${size_lc}"
 
 # 결과(로그 + summary) 위치
-result_root="public/ResultFirstScripts/${type_lc}/${vendor_lc}_${size_lc}"
+result_root="public/${result_folder}/${type_lc}/${vendor_lc}_${size_lc}"
 log_root="${result_root}/logs"
 
+echo "Source              : $source_uc"
 echo "Input R scripts dir : $input_dir"
 echo "Result root         : $result_root"
 echo "Log root            : $log_root"
@@ -109,11 +126,10 @@ for script in "${scripts[@]}"; do
   pre_existing=0
   [[ -d "$expected_dir" ]] && pre_existing=1
 
-  # 없으면 미리 만들어두기도 했었는데, 여기서는 R 스크립트가 생성하는지 확인용으로만 사용
-  # 필요하면 아래 주석 해제해서 빈 디렉터리라도 만들어둘 수 있음
-  # if [[ $pre_existing -eq 0 ]]; then
-  #   mkdir -p "$expected_dir"
-  # fi
+  # 디렉토리가 없으면 미리 생성 (R 스크립트가 디렉토리 생성 안 하는 경우 대비)
+  if [[ $pre_existing -eq 0 ]]; then
+    mkdir -p "$expected_dir"
+  fi
 
   log_file="${log_root}/${base}.log"
 

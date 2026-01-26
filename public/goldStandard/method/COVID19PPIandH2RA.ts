@@ -1,4 +1,4 @@
-export const TEXTDOACsandWarfarin =
+export const TEXTCOVID19PPIandH2RA =
   `
 Methods
 Data sources

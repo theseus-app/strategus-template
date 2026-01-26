@@ -1,0 +1,16 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : LIGHT
+Type       : PRIMARY
+Runner     : R
+--------------------------------------
+Total scripts : 5
+Success count : 3
+Fail count    : 2
+Accuracy      : 60.00%
+
+❌ Failed Scripts:
+  - alzheimerdonepezil
+  - mars
+--------------------------------------
+Logs saved under: public/ResultFirstScriptsTest/primary/gemini_light/logs

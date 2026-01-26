@@ -5,17 +5,12 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 15
-Success count : 8
-Fail count    : 7
-Accuracy      : 53.33%
+Success count : 13
+Fail count    : 2
+Accuracy      : 86.67%
 
 ❌ Failed Scripts:
-  - antivegfkidney
   - ceeamos
-  - doacsandwarfarin
-  - legendt2dm
-  - ranitidinecancer
-  - rapidcyclejanssen
-  - uveitissafety
+  - tramadolcodein
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/primary/deepseek_light/logs

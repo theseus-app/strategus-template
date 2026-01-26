@@ -1,9 +1,11 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 
-import { json2strategus } from "./json2strategus";
-import { loadFile, ModulePair } from "./loadFile";
-import { StudyDTO, defaultDTO, fillWithDefaults } from "./studyDto";
+import { json2strategus } from "./json2strategus.ts";
+import { loadFile } from "./loadFile.ts";
+import type { ModulePair } from "./loadFile.ts";
+import { defaultDTO, fillWithDefaults } from "./studyDto.ts";
+import type { StudyDTO } from "./studyDto.ts";
 
 /** PRIMARY 스키마(json) 를 DEFAULT 스키마 모양으로 normalize */
 function normalizePrimaryToDefaultShape(raw: any): any {
@@ -54,16 +56,22 @@ function parseArgs() {
   const argMap: Record<string, string> = {};
   for (const a of args) {
     const [k, v] = a.split("=");
-    if (k && v) argMap[k.replace(/^--/, "").toLowerCase()] = v.toUpperCase();
+    if (k && v) {
+      const key = k.replace(/^--/, "").toLowerCase();
+      // case는 대소문자 유지 (study name)
+      argMap[key] = key === "case" ? v : v.toUpperCase();
+    }
   }
 
   const vendor = argMap["vendor"];
   const size = argMap["size"];
   const type = argMap["type"]; // ✅ DEFAULT | PRIMARY
+  const source = argMap["source"] || "GOLDSTANDARD"; // ✅ GOLDSTANDARD | GOLDSTANDARDTEST
+  const caseFilter = argMap["case"] || ""; // ✅ 특정 케이스만 실행 (예: UveitisSafety)
 
   if (!vendor || !size || !type) {
     console.error(
-      "❌ Usage: ts-node src/getRScripts.ts --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE --size=FLAGSHIP|LIGHT --type=DEFAULT|PRIMARY",
+      "❌ Usage: node --experimental-strip-types getRScripts.ts --vendor=OPENAI|GEMINI|DEEPSEEK|CLAUDE --size=FLAGSHIP|LIGHT --type=DEFAULT|PRIMARY [--source=GOLDSTANDARD|GOLDSTANDARDTEST] [--case=StudyName]",
     );
     process.exit(1);
   }
@@ -71,30 +79,34 @@ function parseArgs() {
   const supportedVendors = ["OPENAI", "GEMINI", "DEEPSEEK", "CLAUDE"];
   const supportedSizes = ["FLAGSHIP", "LIGHT"];
   const supportedTypes = ["DEFAULT", "PRIMARY"];
+  const supportedSources = ["GOLDSTANDARD", "GOLDSTANDARDTEST"];
 
   if (
     !supportedVendors.includes(vendor) ||
     !supportedSizes.includes(size) ||
-    !supportedTypes.includes(type)
+    !supportedTypes.includes(type) ||
+    !supportedSources.includes(source)
   ) {
     console.error(
-      `❌ Invalid vendor/size/type. vendors: ${supportedVendors.join(
+      `❌ Invalid vendor/size/type/source. vendors: ${supportedVendors.join(
         ", ",
-      )} / sizes: ${supportedSizes.join(", ")} / types: ${supportedTypes.join(", ")}`,
+      )} / sizes: ${supportedSizes.join(", ")} / types: ${supportedTypes.join(", ")} / sources: ${supportedSources.join(", ")}`,
     );
     process.exit(1);
   }
 
-  return { vendor, size, type };
+  return { vendor, size, type, source, caseFilter };
 }
 
-const { vendor, size, type } = parseArgs();
+const { vendor, size, type, source, caseFilter } = parseArgs();
 
-// ✅ 결과 저장 폴더: public/firstScripts/{type}/{vendor}_{size}
+// ✅ 결과 저장 폴더: public/firstScripts/{source}/{type}/{vendor}_{size}
+// goldStandard -> firstScripts, goldStandardTest -> firstScriptsTest
+const outputFolder = source === "GOLDSTANDARDTEST" ? "firstScriptsTest" : "firstScripts";
 const RS_DIR = path.resolve(
   process.cwd(),
   "public",
-  "firstScripts",
+  outputFolder,
   type.toLowerCase(), // "default" | "primary"
   `${vendor.toLowerCase()}_${size.toLowerCase()}`, // "openai_flagship" 등
 );
@@ -197,9 +209,21 @@ type PerCase = {
 };
 
 export async function getRScripts() {
-  // ✅ type에 따라 goldStandard 위치가 결정되도록 loadFile에 type 전달
-  const pairs: ModulePair[] = await loadFile(type);
-  if (!pairs.length) console.warn(`[WARN] No module pairs found for type=${type}.`);
+  // ✅ type과 source에 따라 goldStandard/goldStandardTest 위치가 결정되도록 loadFile에 전달
+  const sourceFolder = source === "GOLDSTANDARDTEST" ? "goldStandardTest" : "goldStandard";
+  let pairs: ModulePair[] = await loadFile(type, sourceFolder);
+  if (!pairs.length) console.warn(`[WARN] No module pairs found for type=${type}, source=${source}.`);
+
+  // ✅ --case 옵션으로 특정 케이스만 필터링
+  if (caseFilter) {
+    const filterLower = caseFilter.toLowerCase();
+    pairs = pairs.filter((p) => p.name.toLowerCase().includes(filterLower));
+    if (!pairs.length) {
+      console.error(`[ERROR] No matching case found for --case=${caseFilter}`);
+      process.exit(1);
+    }
+    console.log(`[INFO] Filtering to case: ${pairs.map((p) => p.name).join(", ")}`);
+  }
 
   await ensureDir(RS_DIR);
 
@@ -268,10 +292,8 @@ export async function getRScripts() {
   );
 }
 
-// 단독 실행
-if (require.main === module) {
-  getRScripts().catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
-}
+// 단독 실행 (ESM)
+getRScripts().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

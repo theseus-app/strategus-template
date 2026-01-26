@@ -4,13 +4,11 @@ Size       : LIGHT
 Type       : DEFAULT
 Runner     : R
 --------------------------------------
-Total scripts : 8
-Success count : 6
-Fail count    : 2
-Accuracy      : 75.00%
+Total scripts : 1
+Success count : 1
+Fail count    : 0
+Accuracy      : 100.00%
 
-❌ Failed Scripts:
-  - iudehre
-  - ranitidinecancer
+✅ All scripts executed successfully.
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/default/gemini_light/logs

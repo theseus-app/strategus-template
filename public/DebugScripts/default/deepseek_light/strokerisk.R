@@ -59,9 +59,15 @@ cmTcList <- data.frame(
 # For the CohortMethod LSPS we'll need to exclude the drugs of interest in this
 # study
 excludedCovariateConcepts <- data.frame(
-  conceptId = numeric(0),
-  conceptName = character(0)
+  conceptId = integer(),
+  conceptName = character()
 )
+
+# Optional: If you want to define covariates to include instead of including them all
+# includedCovariateConcepts <- data.frame(
+#   conceptId = c(),
+#   conceptName = c()
+# )
 
 # CohortGeneratorModule --------------------------------------------------------
 cgModuleSettingsCreator <- CohortGeneratorModule$new()
@@ -111,17 +117,10 @@ timeAtRisks <- tibble(
 
 # Propensity Score settings - match on PS
 matchOnPsArgsList <- tibble(
-  label = c("NoPs", "Match1", "Match10"),
+  label = c("NoAdjustment", "Match1to1", "Match1to10"),
   maxRatio  = c(NA, 1, 10),
   caliper = c(NA, 0.05, 0.2),
   caliperScale  = c(NA, "propensity score", "standardized logit")
-) 
-
-# Propensity Score settings - stratify by PS
-stratifyByPsArgsList <- tibble(
-  label = character(0),
-  numberOfStrata  = numeric(0),
-  baseSelection = character(0)
 ) 
 
 # Build a single PS configuration list (each entry has: method, label, params)
@@ -141,24 +140,6 @@ if (exists("matchOnPsArgsList") && nrow(matchOnPsArgsList) > 0) {
         maxRatio     = matchOnPsArgsList$maxRatio[i],
         caliper      = matchOnPsArgsList$caliper[i],
         caliperScale = matchOnPsArgsList$caliperScale[i]
-      )
-    )
-  }
-}
-
-# If a data frame for "stratify by PS" exists and has rows, convert each row to a config
-if (exists("stratifyByPsArgsList") && nrow(stratifyByPsArgsList) > 0) {
-  for (i in seq_len(nrow(stratifyByPsArgsList))) {
-    # Append a new element at the end of psConfigList
-    psConfigList[[length(psConfigList) + 1]] <- list(
-      # Identify the PS adjustment method for this config
-      method = "stratify",
-      # Human-readable label to carry through into descriptions
-      label  = stratifyByPsArgsList$label[i],
-      # Parameter bundle passed to createStratifyByPsArgs later
-      params = list(
-        numberOfStrata = stratifyByPsArgsList$numberOfStrata[i],
-        baseSelection  = stratifyByPsArgsList$baseSelection[i]
       )
     )
   }
@@ -186,14 +167,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           stratificationColumns = c()
         )
         stratifyByPsArgs <- NULL
-      } else if (psCfg$method == "stratify") {
-        matchOnPsArgs <- NULL
-        stratifyByPsArgs <- CohortMethod::createStratifyByPsArgs(
-          numberOfStrata = psCfg$params$numberOfStrata,
-          stratificationColumns = c(),
-          baseSelection = psCfg$params$baseSelection
-        )
-      } else { # "none" - no PS adjustment
+      } else if (psCfg$method == "none") {
         matchOnPsArgs <- NULL
         stratifyByPsArgs <- NULL
       }
@@ -234,6 +208,9 @@ for (s in seq_len(nrow(studyPeriods))) {
         studyStartDate = studyStartDate,
         studyEndDate = studyEndDate,
         maxCohortSize = 0,
+        firstExposureOnly = TRUE,
+        washoutPeriod = 183,
+        removeDuplicateSubjects = "keep first",
         covariateSettings = covariateSettings
       )
 
@@ -253,7 +230,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           seed = 1, 
           resetCoefficients = TRUE, 
           tolerance = 2e-07, 
-          cvRepetitions = 10, 
+          cvRepetitions = 10,
           fold = 10,
           startingVariance = 0.01
         )
@@ -268,12 +245,10 @@ for (s in seq_len(nrow(studyPeriods))) {
         covariateFilter = FeatureExtraction::getDefaultTable1Specifications()
       )
 
-      # Fix: Set stratified = FALSE when no PS adjustment is used
-      stratifiedModel <- !is.null(matchOnPsArgs) || !is.null(stratifyByPsArgs)
-      
+      # Fix: When no PS adjustment (method = "none"), set stratified = FALSE in fitOutcomeModelArgs
       fitOutcomeModelArgs = CohortMethod::createFitOutcomeModelArgs(
         modelType = "cox",
-        stratified = stratifiedModel,
+        stratified = ifelse(psCfg$method == "none", FALSE, TRUE),
         useCovariates = FALSE,
         inversePtWeighting = FALSE,
         prior = Cyclops::createPrior(
@@ -286,12 +261,11 @@ for (s in seq_len(nrow(studyPeriods))) {
           resetCoefficients = TRUE,
           startingVariance = 0.01, 
           tolerance = 2e-07, 
-          cvRepetitions = 10, 
+          cvRepetitions = 10,
           fold = 10,
           noiseLevel = "quiet"
         )
       )
-      
       createStudyPopArgs <- CohortMethod::createCreateStudyPopulationArgs(
         restrictToCommonPeriod = FALSE,
         firstExposureOnly = FALSE,

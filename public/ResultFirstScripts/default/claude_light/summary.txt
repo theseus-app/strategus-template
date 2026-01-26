@@ -10,9 +10,9 @@ Fail count    : 4
 Accuracy      : 73.33%
 
 ❌ Failed Scripts:
+  - corazon
   - covid19ppiandh2ra
-  - legendt2dm
   - ranitidinecancer
-  - semaglutideandnaion
+  - strokerisk
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/default/claude_light/logs

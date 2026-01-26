@@ -55,8 +55,4 @@ The following objects are masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in sprintf("Study: %s-%s; TAR: %s; PS: %s", studyPeriods$label[s],  : 
-  too few arguments
-Calls: <Anonymous> ... <Anonymous> -> checkCharacter -> %and% -> isTRUE -> sprintf
-Execution halted
-    ✖ Runner command exited with an error (runner: R)
+    ✔ Success: ranitidinecancer

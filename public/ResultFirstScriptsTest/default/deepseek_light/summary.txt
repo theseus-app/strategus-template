@@ -1,0 +1,15 @@
+===== R Script Execution Summary =====
+Vendor     : DEEPSEEK
+Size       : LIGHT
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 5
+Success count : 4
+Fail count    : 1
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - alzheimerdonepezil
+--------------------------------------
+Logs saved under: public/ResultFirstScriptsTest/default/deepseek_light/logs

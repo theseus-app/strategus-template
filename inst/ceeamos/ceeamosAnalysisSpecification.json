@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: NoStart-NoEnd; TAR: Tar1; PS: MatchOnPs",
+            "description": "Study: -; TAR: Main TAR; PS: Match on PS",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "",
               "studyEndDate": "",
@@ -333,6 +333,7 @@
                 "attr_class": "outcome"
               }
             ],
+            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

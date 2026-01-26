@@ -5,11 +5,10 @@ Type       : DEFAULT
 Runner     : R
 --------------------------------------
 Total scripts : 4
-Success count : 3
-Fail count    : 1
-Accuracy      : 75.00%
+Success count : 4
+Fail count    : 0
+Accuracy      : 100.00%
 
-❌ Failed Scripts:
-  - ranitidinecancer
+✅ All scripts executed successfully.
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/default/claude_light/logs

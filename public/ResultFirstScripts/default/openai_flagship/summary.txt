@@ -5,15 +5,12 @@ Type       : DEFAULT
 Runner     : R
 --------------------------------------
 Total scripts : 15
-Success count : 9
-Fail count    : 6
-Accuracy      : 60.00%
+Success count : 12
+Fail count    : 3
+Accuracy      : 80.00%
 
 ❌ Failed Scripts:
   - covid19ppiandh2ra
-  - doacsandwarfarin
-  - iudehre
-  - legendt2dm
   - ranitidinecancer
   - strokerisk
 --------------------------------------

@@ -3,23 +3,27 @@ set -uo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage: run_debug_rscripts.sh --vendor=NAME --size=NAME --type=DEFAULT|PRIMARY [--runner=R|Rscript]
+Usage: run_debug_rscripts.sh --vendor=NAME --size=NAME --type=DEFAULT|PRIMARY [--source=GOLDSTANDARD|GOLDSTANDARDTEST] [--runner=R|Rscript]
 
 Runs each R script inside:
-  public/DebugScripts/{type}/{vendor}_{size}
+  public/DebugScripts/{type}/{vendor}_{size}       (source=GOLDSTANDARD)
+  public/DebugScriptsTest/{type}/{vendor}_{size}   (source=GOLDSTANDARDTEST)
 and checks whether inst/<script-base-name>/ was created after a successful run.
 Logs results and generates summary.txt under:
-  public/ResultDebugScripts/{type}/{vendor}_{size}
+  public/ResultDebugScripts/{type}/{vendor}_{size}       (source=GOLDSTANDARD)
+  public/ResultDebugScriptsTest/{type}/{vendor}_{size}   (source=GOLDSTANDARDTEST)
 
 Examples:
   ./run_debug_rscripts.sh --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT
   ./run_debug_rscripts.sh --vendor=OPENAI --size=LIGHT --type=PRIMARY
+  ./run_debug_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
 USAGE
 }
 
 vendor=""
 size=""
 type=""
+source_arg="GOLDSTANDARD"
 runner="R"   # ✅ 기본 runner는 R
 
 while [[ $# -gt 0 ]]; do
@@ -30,6 +34,8 @@ while [[ $# -gt 0 ]]; do
     --size) shift; size="${1:-}";;
     --type=*) type="${1#*=}" ;;
     --type) shift; type="${1:-}";;
+    --source=*) source_arg="${1#*=}" ;;
+    --source) shift; source_arg="${1:-}";;
     --runner=*) runner="${1#*=}" ;;
     --runner) shift; runner="${1:-}";;
     -h|--help) usage; exit 0 ;;
@@ -54,17 +60,28 @@ type_filt=$(to_upper "$type")
 vendor_lower=$(to_lower "$vendor_filt")
 size_lower=$(to_lower "$size_filt")
 type_lower=$(to_lower "$type_filt")
+source_upper=$(to_upper "$source_arg")
+
+# source에 따라 폴더명 결정
+if [[ "$source_upper" == "GOLDSTANDARDTEST" ]]; then
+  debug_folder="DebugScriptsTest"
+  result_folder="ResultDebugScriptsTest"
+else
+  debug_folder="DebugScripts"
+  result_folder="ResultDebugScripts"
+fi
 
 # ✅ 디버그 스크립트가 있는 곳
-script_root="public/DebugScripts/${type_lower}/${vendor_lower}_${size_lower}"
+script_root="public/${debug_folder}/${type_lower}/${vendor_lower}_${size_lower}"
 
 # ✅ 실행 결과 및 로그를 남길 곳
-result_root="public/ResultDebugScripts/${type_lower}/${vendor_lower}_${size_lower}"
+result_root="public/${result_folder}/${type_lower}/${vendor_lower}_${size_lower}"
 log_dir="${result_root}/logs"
 
 echo "Vendor : $vendor_filt"
 echo "Size   : $size_filt"
 echo "Type   : $type_filt"
+echo "Source : $source_upper"
 echo "Runner : $runner"
 echo "Script dir : $script_root"
 echo "Result dir : $result_root"

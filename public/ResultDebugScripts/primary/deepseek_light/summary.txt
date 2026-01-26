@@ -4,14 +4,12 @@ Size       : LIGHT
 Type       : PRIMARY
 Runner     : R
 --------------------------------------
-Total scripts : 7
-Success count : 4
-Fail count    : 3
-Accuracy      : 57.14%
+Total scripts : 2
+Success count : 1
+Fail count    : 1
+Accuracy      : 50.00%
 
 ❌ Failed Scripts:
-  - doacsandwarfarin
-  - legendt2dm
-  - rapidcyclejanssen
+  - ceeamos
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/primary/deepseek_light/logs

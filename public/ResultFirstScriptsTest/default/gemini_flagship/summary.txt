@@ -1,0 +1,15 @@
+===== R Script Execution Summary =====
+Vendor     : GEMINI
+Size       : FLAGSHIP
+Type       : DEFAULT
+Runner     : R
+--------------------------------------
+Total scripts : 5
+Success count : 4
+Fail count    : 1
+Accuracy      : 80.00%
+
+❌ Failed Scripts:
+  - mars
+--------------------------------------
+Logs saved under: public/ResultFirstScriptsTest/default/gemini_flagship/logs

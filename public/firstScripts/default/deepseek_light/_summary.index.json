@@ -1,95 +1,95 @@
 {
-  "createdAt": "2025-11-26T07:14:03.926Z",
+  "createdAt": "2026-01-26T01:35:39.028Z",
   "totalCases": 15,
   "results": [
     {
       "name": "AntiVEGFKidney",
       "fileName": "antivegfkidney.R",
-      "createdAt": "2025-11-26T06:40:05.884Z",
+      "createdAt": "2026-01-26T01:05:18.113Z",
       "savedPath": "public/firstScripts/default/deepseek_light/antivegfkidney.R"
     },
     {
       "name": "CEEAMOS",
       "fileName": "ceeamos.R",
-      "createdAt": "2025-11-26T06:42:19.247Z",
+      "createdAt": "2026-01-26T01:07:20.173Z",
       "savedPath": "public/firstScripts/default/deepseek_light/ceeamos.R"
     },
     {
       "name": "CORAZON",
       "fileName": "corazon.R",
-      "createdAt": "2025-11-26T06:44:36.093Z",
+      "createdAt": "2026-01-26T01:09:26.979Z",
       "savedPath": "public/firstScripts/default/deepseek_light/corazon.R"
     },
     {
       "name": "COVID19Famotidine",
       "fileName": "covid19famotidine.R",
-      "createdAt": "2025-11-26T06:46:55.373Z",
+      "createdAt": "2026-01-26T01:11:46.562Z",
       "savedPath": "public/firstScripts/default/deepseek_light/covid19famotidine.R"
     },
     {
       "name": "COVID19PPIandH2RA",
       "fileName": "covid19ppiandh2ra.R",
-      "createdAt": "2025-11-26T06:49:16.770Z",
+      "createdAt": "2026-01-26T01:13:50.116Z",
       "savedPath": "public/firstScripts/default/deepseek_light/covid19ppiandh2ra.R"
     },
     {
       "name": "DOACsandWarfarin",
       "fileName": "doacsandwarfarin.R",
-      "createdAt": "2025-11-26T06:51:40.178Z",
+      "createdAt": "2026-01-26T01:15:42.322Z",
       "savedPath": "public/firstScripts/default/deepseek_light/doacsandwarfarin.R"
     },
     {
       "name": "IUDEHRE",
       "fileName": "iudehre.R",
-      "createdAt": "2025-11-26T06:54:11.705Z",
+      "createdAt": "2026-01-26T01:17:56.261Z",
       "savedPath": "public/firstScripts/default/deepseek_light/iudehre.R"
     },
     {
       "name": "LEGENDT2DM",
       "fileName": "legendt2dm.R",
-      "createdAt": "2025-11-26T06:56:38.286Z",
+      "createdAt": "2026-01-26T01:20:10.282Z",
       "savedPath": "public/firstScripts/default/deepseek_light/legendt2dm.R"
     },
     {
       "name": "RanitidineCancer",
       "fileName": "ranitidinecancer.R",
-      "createdAt": "2025-11-26T06:59:06.529Z",
+      "createdAt": "2026-01-26T01:22:15.083Z",
       "savedPath": "public/firstScripts/default/deepseek_light/ranitidinecancer.R"
     },
     {
       "name": "RapidCycleJanssen",
       "fileName": "rapidcyclejanssen.R",
-      "createdAt": "2025-11-26T07:01:29.238Z",
+      "createdAt": "2026-01-26T01:24:26.939Z",
       "savedPath": "public/firstScripts/default/deepseek_light/rapidcyclejanssen.R"
     },
     {
       "name": "SemaglutideandNAION",
       "fileName": "semaglutideandnaion.R",
-      "createdAt": "2025-11-26T07:03:55.785Z",
+      "createdAt": "2026-01-26T01:26:35.789Z",
       "savedPath": "public/firstScripts/default/deepseek_light/semaglutideandnaion.R"
     },
     {
       "name": "StrokeRisk",
       "fileName": "strokerisk.R",
-      "createdAt": "2025-11-26T07:06:27.485Z",
+      "createdAt": "2026-01-26T01:29:15.297Z",
       "savedPath": "public/firstScripts/default/deepseek_light/strokerisk.R"
     },
     {
       "name": "TicagrelorClopidogrel",
       "fileName": "ticagrelorclopidogrel.R",
-      "createdAt": "2025-11-26T07:09:05.437Z",
+      "createdAt": "2026-01-26T01:31:26.363Z",
       "savedPath": "public/firstScripts/default/deepseek_light/ticagrelorclopidogrel.R"
     },
     {
       "name": "TramadolCodein",
       "fileName": "tramadolcodein.R",
-      "createdAt": "2025-11-26T07:11:34.789Z",
+      "createdAt": "2026-01-26T01:33:46.659Z",
       "savedPath": "public/firstScripts/default/deepseek_light/tramadolcodein.R"
     },
     {
       "name": "UveitisSafety",
       "fileName": "uveitissafety.R",
-      "createdAt": "2025-11-26T07:14:03.926Z",
+      "createdAt": "2026-01-26T01:35:39.028Z",
       "savedPath": "public/firstScripts/default/deepseek_light/uveitissafety.R"
     }
   ]

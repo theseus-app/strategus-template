@@ -4,8 +4,8 @@ Size       : FLAGSHIP
 Type       : DEFAULT
 Runner     : R
 --------------------------------------
-Total scripts : 4
-Success count : 4
+Total scripts : 3
+Success count : 3
 Fail count    : 0
 Accuracy      : 100.00%
 

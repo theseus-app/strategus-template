@@ -4,12 +4,11 @@ Size       : LIGHT
 Type       : PRIMARY
 Runner     : R
 --------------------------------------
-Total scripts : 3
+Total scripts : 2
 Success count : 2
-Fail count    : 1
-Accuracy      : 66.67%
+Fail count    : 0
+Accuracy      : 100.00%
 
-❌ Failed Scripts:
-  - semaglutideandnaion
+✅ All scripts executed successfully.
 --------------------------------------
 Logs saved under: public/ResultDebugScripts/primary/gemini_light/logs

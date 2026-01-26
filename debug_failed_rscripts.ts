@@ -1,22 +1,24 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
-import { debugStrategusScript } from "./json2strategus";
+import { debugStrategusScript } from "./json2strategus.ts";
 
 // json2strategus.ts 안에서 이미 dotenv.config() 호출하고 있음.
 
 type Vendor = "OPENAI" | "CLAUDE" | "GEMINI" | "DEEPSEEK";
 type ModelSize = "FLAGSHIP" | "LIGHT";
 type RunType = "DEFAULT" | "PRIMARY";
+type SourceType = "GOLDSTANDARD" | "GOLDSTANDARDTEST";
 
 interface CliArgs {
     vendor: Vendor;
     size: ModelSize;
     type: RunType;
+    source: SourceType;
 }
 
 /**
- * CLI 인자 파싱: --vendor=OPENAI --size=LIGHT --type=DEFAULT|PRIMARY
+ * CLI 인자 파싱: --vendor=OPENAI --size=LIGHT --type=DEFAULT|PRIMARY [--source=GOLDSTANDARD|GOLDSTANDARDTEST]
  */
 function parseCliArgs(): CliArgs {
     const args = process.argv.slice(2);
@@ -32,10 +34,11 @@ function parseCliArgs(): CliArgs {
     const vendor = kv.vendor as Vendor | undefined;
     const size = kv.size as ModelSize | undefined;
     const type = kv.type as RunType | undefined;
+    const source = (kv.source?.toUpperCase() || "GOLDSTANDARD") as SourceType;
 
     if (!vendor || !size || !type) {
         console.error(
-            "Usage: debug_failed_rscripts --vendor=<OPENAI|CLAUDE|GEMINI|DEEPSEEK> --size=<FLAGSHIP|LIGHT> --type=<DEFAULT|PRIMARY>",
+            "Usage: debug_failed_rscripts --vendor=<OPENAI|CLAUDE|GEMINI|DEEPSEEK> --size=<FLAGSHIP|LIGHT> --type=<DEFAULT|PRIMARY> [--source=<GOLDSTANDARD|GOLDSTANDARDTEST>]",
         );
         process.exit(1);
     }
@@ -43,15 +46,16 @@ function parseCliArgs(): CliArgs {
     const vendorSet: Vendor[] = ["OPENAI", "CLAUDE", "GEMINI", "DEEPSEEK"];
     const sizeSet: ModelSize[] = ["FLAGSHIP", "LIGHT"];
     const typeSet: RunType[] = ["DEFAULT", "PRIMARY"];
+    const sourceSet: SourceType[] = ["GOLDSTANDARD", "GOLDSTANDARDTEST"];
 
-    if (!vendorSet.includes(vendor) || !sizeSet.includes(size) || !typeSet.includes(type)) {
+    if (!vendorSet.includes(vendor) || !sizeSet.includes(size) || !typeSet.includes(type) || !sourceSet.includes(source)) {
         console.error(
-            `Invalid vendor/size/type. vendor=${vendor}, size=${size}, type=${type}`,
+            `Invalid vendor/size/type/source. vendor=${vendor}, size=${size}, type=${type}, source=${source}`,
         );
         process.exit(1);
     }
 
-    return { vendor, size, type };
+    return { vendor, size, type, source };
 }
 
 /**
@@ -164,13 +168,21 @@ async function safeDebugStrategusScript(params: {
 }
 
 async function main() {
-    const { vendor, size, type } = parseCliArgs();
+    const { vendor, size, type, source } = parseCliArgs();
 
     const baseDir = process.cwd();
 
     const vendorLower = vendor.toLowerCase();
     const sizeLower = size.toLowerCase();
     const typeLower = type.toLowerCase();
+
+    // source에 따라 폴더명 결정
+    // GOLDSTANDARD -> firstScripts, ResultFirstScripts, DebugScripts
+    // GOLDSTANDARDTEST -> firstScriptsTest, ResultFirstScriptsTest, DebugScriptsTest
+    const isTest = source === "GOLDSTANDARDTEST";
+    const scriptFolder = isTest ? "firstScriptsTest" : "firstScripts";
+    const resultFolder = isTest ? "ResultFirstScriptsTest" : "ResultFirstScripts";
+    const debugFolder = isTest ? "DebugScriptsTest" : "DebugScripts";
 
     // run_rscripts.sh 기준 경로:
     //   input R scripts: public/firstScripts/{type}/{vendor_lower}_{size_lower}
@@ -180,14 +192,14 @@ async function main() {
     const scriptDir = path.join(
         baseDir,
         "public",
-        "firstScripts",
+        scriptFolder,
         typeLower,
         `${vendorLower}_${sizeLower}`,
     );
     const resultRoot = path.join(
         baseDir,
         "public",
-        "ResultFirstScripts",
+        resultFolder,
         typeLower,
         `${vendorLower}_${sizeLower}`,
     );
@@ -196,7 +208,7 @@ async function main() {
     const debugDir = path.join(
         baseDir,
         "public",
-        "DebugScripts",
+        debugFolder,
         typeLower,
         `${vendorLower}_${sizeLower}`,
     );
@@ -206,6 +218,7 @@ async function main() {
     console.log(`==> Vendor : ${vendor}`);
     console.log(`==> Size   : ${size}`);
     console.log(`==> Type   : ${type}`);
+    console.log(`==> Source : ${source}`);
     console.log(`==> Script dir : ${scriptDir}`);
     console.log(`==> Log dir    : ${logDir}`);
     console.log(`==> Summary    : ${summaryPath}`);

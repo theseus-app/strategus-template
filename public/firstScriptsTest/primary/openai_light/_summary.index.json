@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-01-26T03:47:30.032Z",
+  "totalCases": 5,
+  "results": [
+    {
+      "name": "AlzheimerDonepezil",
+      "fileName": "alzheimerdonepezil.R",
+      "createdAt": "2026-01-26T03:45:39.483Z",
+      "savedPath": "public/firstScriptsTest/primary/openai_light/alzheimerdonepezil.R"
+    },
+    {
+      "name": "CystectomyTrimodality",
+      "fileName": "cystectomytrimodality.R",
+      "createdAt": "2026-01-26T03:46:08.984Z",
+      "savedPath": "public/firstScriptsTest/primary/openai_light/cystectomytrimodality.R"
+    },
+    {
+      "name": "GLP1RADepression",
+      "fileName": "glp1radepression.R",
+      "createdAt": "2026-01-26T03:46:33.983Z",
+      "savedPath": "public/firstScriptsTest/primary/openai_light/glp1radepression.R"
+    },
+    {
+      "name": "MARS",
+      "fileName": "mars.R",
+      "createdAt": "2026-01-26T03:47:08.364Z",
+      "savedPath": "public/firstScriptsTest/primary/openai_light/mars.R"
+    },
+    {
+      "name": "SGLT2iMetformin",
+      "fileName": "sglt2imetformin.R",
+      "createdAt": "2026-01-26T03:47:30.031Z",
+      "savedPath": "public/firstScriptsTest/primary/openai_light/sglt2imetformin.R"
+    }
+  ]
+}

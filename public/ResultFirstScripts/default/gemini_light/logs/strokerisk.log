@@ -37,28 +37,11 @@ The following object is masked from ‘package:CohortGenerator’:
 
     uploadResults
 
+Loading required package: Cyclops
 Loading required package: FeatureExtraction
 Loading required package: Andromeda
 
-Attaching package: ‘CohortDiagnostics’
-
-The following object is masked from ‘package:Strategus’:
-
-    uploadResults
-
-The following objects are masked from ‘package:CohortGenerator’:
-
-    createResultsDataModel, getCohortCounts, getDataMigrator,
-    getResultsDataModelSpecifications, migrateDataModel, uploadResults
-
-Loading required package: Cyclops
-
 Attaching package: ‘CohortMethod’
-
-The following objects are masked from ‘package:CohortDiagnostics’:
-
-    createResultsDataModel, getDataMigrator,
-    getResultsDataModelSpecifications, migrateDataModel, uploadResults
 
 The following object is masked from ‘package:Strategus’:
 
@@ -72,8 +55,9 @@ The following objects are masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in if (file == "") file <- stdout() else if (startsWith(file, "|")) { : 
-  argument is of length zero
-Calls: <Anonymous> -> write -> cat
+Error in CohortMethod::createCmAnalysis(analysisId = analysisId, description = sprintf("Study: %s-%s; TAR: %s; PS: %s",  : 
+  Must create strata by using matching or stratification to fit a stratified outcome model
+In addition: Warning message:
+Unknown or uninitialised column: `minDaysAtRisk`. 
 Execution halted
     ✖ Runner command exited with an error (runner: R)

@@ -11,9 +11,9 @@ Accuracy      : 66.67%
 
 ❌ Failed Scripts:
   - covid19ppiandh2ra
-  - doacsandwarfarin
-  - legendt2dm
+  - iudehre
   - ranitidinecancer
   - strokerisk
+  - tramadolcodein
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/default/deepseek_flagship/logs

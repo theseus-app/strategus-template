@@ -5,13 +5,12 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 15
-Success count : 12
-Fail count    : 3
-Accuracy      : 80.00%
+Success count : 13
+Fail count    : 2
+Accuracy      : 86.67%
 
 ❌ Failed Scripts:
-  - legendt2dm
-  - ranitidinecancer
-  - semaglutideandnaion
+  - ceeamos
+  - corazon
 --------------------------------------
 Logs saved under: public/ResultFirstScripts/primary/gemini_light/logs

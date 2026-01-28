@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20130101-20201231; TAR: TAR 1-730 days; PS: PS matching",
+            "description": "Study: 20130101-20201231; TAR: 1-730d from start; PS: 1:1 matching, caliper=0.05",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130101",
               "studyEndDate": "20201231",
@@ -231,7 +231,7 @@
             },
             "matchOnPsArgs": {
               "caliper": 0.05,
-              "caliperScale": "standardized logit",
+              "caliperScale": "propensity score",
               "maxRatio": 1,
               "allowReverseMatch": false,
               "attr_class": "args"
@@ -333,6 +333,7 @@
                 "attr_class": "outcome"
               }
             ],
+            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

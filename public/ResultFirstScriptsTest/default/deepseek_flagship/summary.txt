@@ -5,10 +5,11 @@ Type       : DEFAULT
 Runner     : R
 --------------------------------------
 Total scripts : 5
-Success count : 5
-Fail count    : 0
-Accuracy      : 100.00%
+Success count : 4
+Fail count    : 1
+Accuracy      : 80.00%
 
-✅ All scripts executed successfully.
+❌ Failed Scripts:
+  - alzheimerdonepezil
 --------------------------------------
 Logs saved under: public/ResultFirstScriptsTest/default/deepseek_flagship/logs

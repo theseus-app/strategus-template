@@ -40,10 +40,4 @@ The following object is masked from ‘package:CohortGenerator’:
 Fetching cohortId: 1794126
 Fetching cohortId: 1794132
 Fetching cohortId: 1794131
-Error in ans[ypos] <- rep(yes, length.out = len)[ypos] : 
-  replacement has length zero
-Calls: <Anonymous> -> get -> ifelse
-In addition: Warning message:
-In rep(yes, length.out = len) : 'x' is NULL so the result will be NULL
-Execution halted
-    ✖ Runner command exited with an error (runner: R)
+    ✔ Success: alzheimerdonepezil

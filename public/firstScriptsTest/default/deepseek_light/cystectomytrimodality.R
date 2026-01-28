@@ -55,10 +55,9 @@ oList <- cohortDefinitionSet %>%
   filter(.data$cohortId == 3) %>%
   mutate(outcomeCohortId = cohortId, outcomeCohortName = cohortName) %>%
   select(outcomeCohortId, outcomeCohortName) %>%
-  mutate(cleanWindow = 365) # Standard 365-day clean window for outcomes
+  mutate(cleanWindow = 365) # Default clean window for outcomes
 
 # Target and Comparator for CohortMethod analysis
-# Using exact names from specifications: target1 and comparator1
 cmTcList <- data.frame(
   targetCohortId = 1,
   targetCohortName = "target1",
@@ -68,14 +67,14 @@ cmTcList <- data.frame(
 
 # Covariate exclusion: empty as per specifications (no concepts to exclude)
 excludedCovariateConcepts <- data.frame(
-  conceptId = integer(0),
-  conceptName = character(0)
+  conceptId = integer(),
+  conceptName = character()
 )
 
 # Covariate inclusion: empty as per specifications (no concepts to include)
 includedCovariateConcepts <- data.frame(
-  conceptId = integer(0),
-  conceptName = character(0)
+  conceptId = integer(),
+  conceptName = character()
 )
 
 # CohortGeneratorModule --------------------------------------------------------
@@ -107,7 +106,6 @@ cohortDiagnosticsModuleSpecifications <- cdModuleSettingsCreator$createModuleSpe
 )
 
 # CohortMethodModule -----------------------------------------------------------
-
 # Study periods from specifications: 2005-01-01 to 2017-12-31
 studyPeriods <- tibble(
   studyStartDate = c("20050101"),
@@ -116,26 +114,27 @@ studyPeriods <- tibble(
 
 # Time-at-risks (TARs) from specifications: risk window 1 to 99999 days from cohort start
 timeAtRisks <- tibble(
-  label = c("1-99999d"),
+  label = c("Tar1"),
   riskWindowStart  = c(1),
   startAnchor = c("cohort start"),
   riskWindowEnd  = c(99999),
   endAnchor = c("cohort start")
-) 
+)
 
 # Propensity Score settings - match on PS configurations from specifications
-# Four different matching ratios: 3:1, 1:1, 2:1, and 4:1
+# Four PS matching configurations with different maxRatios
 matchOnPsArgsList <- tibble(
-  label = c("match3to1", "match1to1", "match2to1", "match4to1"),
+  label = c("MatchMaxRatio3", "MatchMaxRatio1", "MatchMaxRatio2", "MatchMaxRatio4"),
   maxRatio  = c(3, 1, 2, 4),
   caliper = c(0.2, 0.2, 0.2, 0.2),
   caliperScale  = c("standardized logit", "standardized logit", "standardized logit", "standardized logit")
-) 
+)
 
+# No stratification by PS in this analysis (stratifyByPsArgs is null in specifications)
 # Build PS configuration list from matchOnPsArgsList
 psConfigList <- list()
 
-# Convert each row in matchOnPsArgsList to a PS configuration
+# Convert matchOnPsArgsList rows to PS configurations
 if (exists("matchOnPsArgsList") && nrow(matchOnPsArgsList) > 0) {
   for (i in seq_len(nrow(matchOnPsArgsList))) {
     psConfigList[[length(psConfigList) + 1]] <- list(
@@ -163,7 +162,7 @@ for (s in seq_len(nrow(studyPeriods))) {
     for (p in seq_along(psConfigList)) {
       psCfg <- psConfigList[[p]]
       
-      # Create matchOnPsArgs based on configuration
+      # Create PS matching arguments based on configuration
       matchOnPsArgs <- CohortMethod::createMatchOnPsArgs(
         maxRatio = psCfg$params$maxRatio,
         caliper = psCfg$params$caliper,
@@ -171,16 +170,17 @@ for (s in seq_len(nrow(studyPeriods))) {
         allowReverseMatch = FALSE,
         stratificationColumns = c()
       )
-      stratifyByPsArgs <- NULL
-
-      # Covariate settings - using default with no specific inclusions/exclusions
+      stratifyByPsArgs <- NULL  # No stratification in this analysis
+      
+      # Create covariate settings - using default settings
+      # Note: specifications don't specify custom covariate settings
       covariateSettings <- FeatureExtraction::createDefaultCovariateSettings(
         addDescendantsToExclude = TRUE
       )
-
+      
       # Create outcome list including both primary outcome and negative controls
       outcomeList <- append(
-        # Primary outcome (outcome1)
+        # Primary outcome
         lapply(seq_len(nrow(oList)), function(i) {
           CohortMethod::createOutcome(
             outcomeId = oList$outcomeCohortId[i],
@@ -210,7 +210,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           includedCovariateConceptIds = includedCovariateConcepts$conceptId
         )
       }
-
+      
       # GetDbCohortMethodDataArgs from specifications
       getDbCohortMethodDataArgs <- CohortMethod::createGetDbCohortMethodDataArgs(
         restrictToCommonPeriod = TRUE,  # From specifications
@@ -222,7 +222,7 @@ for (s in seq_len(nrow(studyPeriods))) {
         removeDuplicateSubjects = "keep all",  # From specifications
         covariateSettings = covariateSettings
       )
-
+      
       # CreatePsArgs from specifications
       createPsArgs = CohortMethod::createCreatePsArgs(
         maxCohortSizeForFitting = 250000,  # From specifications
@@ -241,11 +241,11 @@ for (s in seq_len(nrow(studyPeriods))) {
           resetCoefficients = TRUE,  # From specifications
           tolerance = 2e-07,  # From specifications
           cvRepetitions = 10,  # From specifications
-          fold = 10,  # From specifications
-          startingVariance = 0.01  # From specifications
+          startingVariance = 0.01,  # From specifications
+          fold = 10  # From specifications
         )
       )
-
+      
       # Covariate balance computation arguments
       computeSharedCovariateBalanceArgs = CohortMethod::createComputeCovariateBalanceArgs(
         maxCohortSize = 250000,
@@ -255,7 +255,7 @@ for (s in seq_len(nrow(studyPeriods))) {
         maxCohortSize = 250000,
         covariateFilter = FeatureExtraction::getDefaultTable1Specifications()
       )
-
+      
       # FitOutcomeModelArgs from specifications
       fitOutcomeModelArgs = CohortMethod::createFitOutcomeModelArgs(
         modelType = "cox",  # From specifications
@@ -273,8 +273,8 @@ for (s in seq_len(nrow(studyPeriods))) {
           startingVariance = 0.01,  # From specifications
           tolerance = 2e-07,  # From specifications
           cvRepetitions = 10,  # From specifications
-          fold = 10,  # From specifications
-          noiseLevel = "quiet"  # From specifications
+          noiseLevel = "quiet",  # From specifications
+          fold = 10  # From specifications
         )
       )
       
@@ -294,7 +294,7 @@ for (s in seq_len(nrow(studyPeriods))) {
         minDaysAtRisk = 1,  # From specifications
         maxDaysAtRisk = 99999
       )
-
+      
       # Append the settings to Analysis List
       cmAnalysisList[[analysisId]] <- CohortMethod::createCmAnalysis(
         analysisId = analysisId,

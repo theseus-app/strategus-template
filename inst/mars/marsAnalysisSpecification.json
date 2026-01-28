@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20110101-20131231; TAR: tar_3_90; PS: ps_match_1_0.2_stdlogit",
+            "description": "Study: 20110101-20131231; TAR: 3-90 days from start; PS: Match on PS",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20110101",
               "studyEndDate": "20131231",

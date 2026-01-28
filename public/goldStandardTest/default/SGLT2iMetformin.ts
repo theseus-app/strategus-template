@@ -53,7 +53,7 @@ export const JSONSGLT2iMetformin = {
     psSettings: [
       {
         matchOnPsArgs: {
-          maxRatio: 1,
+          maxRatio: 2,
           caliper: 0.2, //default 설정
           caliperScale: "standardized logit" //default 설정
         },

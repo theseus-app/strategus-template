@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20050101-20171231; TAR: 1 to 99999 days from cohort start; PS: 3:1 matching with 0.2 caliper",
+            "description": "Study: 20050101-20171231; TAR: 1-99999d from cohort start; PS: 1-to-3 matching",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20050101",
               "studyEndDate": "20171231",
@@ -172,9 +172,9 @@
             },
             "createStudyPopArgs": {
               "firstExposureOnly": false,
-              "restrictToCommonPeriod": true,
+              "restrictToCommonPeriod": false,
               "washoutPeriod": 0,
-              "removeDuplicateSubjects": "keep all",
+              "removeDuplicateSubjects": "keep first",
               "removeSubjectsWithPriorOutcome": true,
               "priorOutcomeLookback": 99999,
               "minDaysAtRisk": 1,
@@ -183,7 +183,7 @@
               "startAnchor": "cohort start",
               "riskWindowEnd": 99999,
               "endAnchor": "cohort start",
-              "censorAtNewRiskWindow": false,
+              "censorAtNewRiskWindow": true,
               "attr_class": "args"
             },
             "createPsArgs": {
@@ -210,7 +210,7 @@
                 "upperLimit": 20,
                 "gridSteps": 10,
                 "minCVData": 100,
-                "cvRepetitions": 10,
+                "cvRepetitions": 1,
                 "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
@@ -264,7 +264,7 @@
             "fitOutcomeModelArgs": {
               "modelType": "cox",
               "stratified": true,
-              "useCovariates": true,
+              "useCovariates": false,
               "inversePtWeighting": false,
               "profileBounds": [-2.3026, 2.3026],
               "prior": {
@@ -287,7 +287,7 @@
                 "upperLimit": 20,
                 "gridSteps": 10,
                 "minCVData": 100,
-                "cvRepetitions": 10,
+                "cvRepetitions": 1,
                 "noiseLevel": "quiet",
                 "threads": 1,
                 "seed": 1,
@@ -317,7 +317,6 @@
                 "outcomeId": 3,
                 "outcomeOfInterest": true,
                 "trueEffectSize": null,
-                "priorOutcomeLookback": 99999,
                 "attr_class": "outcome"
               },
               {
@@ -333,7 +332,6 @@
                 "attr_class": "outcome"
               }
             ],
-            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],

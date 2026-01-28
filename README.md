@@ -80,8 +80,26 @@ node --experimental-strip-types getRScripts.ts \
 
 ### 예시
 ```bash
-# goldStandardTest/default를 Claude Light로 처리
+# goldStandardTest/default를 처리
+node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=CLAUDE --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
 node --experimental-strip-types getRScripts.ts --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=GEMINI --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=GEMINI --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=DEEPSEEK --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+
+#goldstandardTest/primary를 처리
+node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=FLAGSHIP --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=LIGHT --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=CLAUDE --size=FLAGSHIP --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=CLAUDE --size=LIGHT --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=GEMINI --size=FLAGSHIP --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=GEMINI --size=LIGHT --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=DEEPSEEK --size=FLAGSHIP --type=PRIMARY --source=GOLDSTANDARDTEST
+node --experimental-strip-types getRScripts.ts --vendor=DEEPSEEK --size=LIGHT --type=PRIMARY --source=GOLDSTANDARDTEST
+
 
 # goldStandard/primary를 OpenAI Flagship으로 처리
 node --experimental-strip-types getRScripts.ts --vendor=OPENAI --size=FLAGSHIP --type=PRIMARY
@@ -152,7 +170,15 @@ node --experimental-strip-types debug_failed_rscripts.ts --vendor=CLAUDE --size=
 ./run_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT
 
 # goldStandardTest firstScripts 실행
+./run_rscripts.sh --vendor=OPENAI --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=OPENAI --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=CLAUDE --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
 ./run_rscripts.sh --vendor=CLAUDE --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=GEMINI --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=GEMINI --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=DEEPSEEK --size=FLAGSHIP --type=DEFAULT --source=GOLDSTANDARDTEST
+./run_rscripts.sh --vendor=DEEPSEEK --size=LIGHT --type=DEFAULT --source=GOLDSTANDARDTEST
+
 ```
 
 ---

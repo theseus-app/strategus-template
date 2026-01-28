@@ -52,8 +52,8 @@ export const JSONGLP1RADepression = {
       {
         matchOnPsArgs: {
           maxRatio: 1,
-          caliper: 0.05, //default 설정
-          caliperScale: "standardized logit" //default 설정
+          caliper: 0.05, 
+          caliperScale: "propensity score"
         },
         stratifyByPsArgs: null
       }

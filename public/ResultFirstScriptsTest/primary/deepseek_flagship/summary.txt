@@ -5,10 +5,12 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 5
-Success count : 5
-Fail count    : 0
-Accuracy      : 100.00%
+Success count : 3
+Fail count    : 2
+Accuracy      : 60.00%
 
-✅ All scripts executed successfully.
+❌ Failed Scripts:
+  - alzheimerdonepezil
+  - glp1radepression
 --------------------------------------
 Logs saved under: public/ResultFirstScriptsTest/primary/deepseek_flagship/logs

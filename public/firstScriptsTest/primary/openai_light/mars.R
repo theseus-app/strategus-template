@@ -11,7 +11,7 @@ library(dplyr)
 library(Strategus)
 
 # Shared Resources -------------------------------------------------------------
-# Set the baseUrl for the WebAPI instance
+# Set the baseUrl for the OHDSI WebAPI instance
 baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 
 # Cohort Definitions
@@ -26,7 +26,7 @@ cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   generateStats = TRUE
 )
 
-# Re-number cohorts to standard IDs for analysis
+# Re-number cohorts to standard IDs for analysis modules
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126,]$cohortId <- 1
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132,]$cohortId <- 2
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131,]$cohortId <- 3
@@ -45,7 +45,7 @@ negativeControlOutcomeCohortSet <- ROhdsiWebApi::getConceptSetDefinition(
   ) %>%
   rename(outcomeConceptId = "conceptId",
          cohortName = "conceptName") %>%
-  mutate(cohortId = row_number() + 100) %>% # Negative controls start at 101
+  mutate(cohortId = row_number() + 100) %>% # negative controls start at 101
   select(cohortId, cohortName, outcomeConceptId)
 
 # Check for duplicate cohort IDs
@@ -53,7 +53,7 @@ if (any(duplicated(c(cohortDefinitionSet$cohortId, negativeControlOutcomeCohortS
   stop("*** Error: duplicate cohort IDs found ***")
 }
 
-# Create data frames for outcomes and target/comparator cohorts ----------------
+# Create data frames for analysis ----------------------------------------------
 # Outcomes: only the main outcome cohort (id=3)
 oList <- cohortDefinitionSet %>%
   filter(.data$cohortId == 3) %>%
@@ -127,7 +127,7 @@ timeAtRisks <- tibble::tibble(
 
 # Propensity Score settings - match on PS (from Analysis Specifications)
 matchOnPsArgsList <- tibble::tibble(
-  label = "MatchPS1",
+  label = "MatchOnPs1",
   maxRatio  = 1,
   caliper = 0.2,
   caliperScale  = "standardized logit"
@@ -193,7 +193,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           baseSelection = psCfg$params$baseSelection
         )
       }
-      # Covariate settings: default, as no includes/excludes specified
+      # Covariate settings: default, as no include/exclude specified
       covariateSettings <- FeatureExtraction::createDefaultCovariateSettings(
         addDescendantsToExclude = TRUE
       )
@@ -215,19 +215,17 @@ for (s in seq_len(nrow(studyPeriods))) {
           )
         })
       )
-      # TargetComparatorOutcomesList
+      # TargetComparatorOutcomes: only one, as per Analysis Specifications
       targetComparatorOutcomesList <- list()
       for (i in seq_len(nrow(cmTcList))) {
         targetComparatorOutcomesList[[i]] <- CohortMethod::createTargetComparatorOutcomes(
           targetId = cmTcList$targetCohortId[i],
           comparatorId = cmTcList$comparatorCohortId[i],
           outcomes = outcomeList,
-          excludedCovariateConceptIds = c(
-            excludedCovariateConcepts$conceptId
-          )
+          excludedCovariateConceptIds = excludedCovariateConcepts$conceptId
         )
       }
-      # GetDbCohortMethodDataArgs
+      # getDbCohortMethodDataArgs: as specified
       getDbCohortMethodDataArgs <- CohortMethod::createGetDbCohortMethodDataArgs(
         restrictToCommonPeriod = TRUE,
         studyStartDate = studyStartDate,
@@ -235,7 +233,7 @@ for (s in seq_len(nrow(studyPeriods))) {
         maxCohortSize = 0,
         covariateSettings = covariateSettings
       )
-      # CreatePsArgs
+      # createPsArgs: as specified
       createPsArgs = CohortMethod::createCreatePsArgs(
         maxCohortSizeForFitting = 250000,
         errorOnHighCorrelation = TRUE,
@@ -263,7 +261,7 @@ for (s in seq_len(nrow(studyPeriods))) {
         maxCohortSize = 250000,
         covariateFilter = FeatureExtraction::getDefaultTable1Specifications()
       )
-      # FitOutcomeModelArgs
+      # fitOutcomeModelArgs: as specified
       fitOutcomeModelArgs = CohortMethod::createFitOutcomeModelArgs(
         modelType = "cox",
         stratified = FALSE,
@@ -283,7 +281,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           startingVariance = 0.01
         )
       )
-      # CreateStudyPopulationArgs
+      # createStudyPopArgs: as specified
       createStudyPopArgs <- CohortMethod::createCreateStudyPopulationArgs(
         restrictToCommonPeriod = TRUE,
         firstExposureOnly = FALSE,

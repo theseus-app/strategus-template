@@ -11,7 +11,7 @@ library(dplyr)
 library(Strategus)
 
 # Shared Resources -------------------------------------------------------------
-# Set the baseUrl for the ATLAS WebAPI instance
+# Set the baseUrl for ATLAS/WebAPI
 baseUrl <- "https://atlas-demo.ohdsi.org/WebAPI"
 
 # Cohort Definitions
@@ -26,7 +26,7 @@ cohortDefinitionSet <- ROhdsiWebApi::exportCohortDefinitionSet(
   generateStats = TRUE
 )
 
-# Re-number cohorts to standard ids: 1=target, 2=comparator, 3=outcome
+# Re-number cohorts to 1, 2, 3 for internal use
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794126,]$cohortId <- 1
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794132,]$cohortId <- 2
 cohortDefinitionSet[cohortDefinitionSet$cohortId == 1794131,]$cohortId <- 3
@@ -54,7 +54,7 @@ if (any(duplicated(c(cohortDefinitionSet$cohortId, negativeControlOutcomeCohortS
 }
 
 # Create data frames for analysis ----------------------------------------------
-# Outcomes: only the main outcome cohort (id=3)
+# Outcomes: only outcome1 (cohortId 3)
 oList <- cohortDefinitionSet %>%
   filter(.data$cohortId == 3) %>%
   mutate(outcomeCohortId = cohortId, outcomeCohortName = cohortName) %>%
@@ -127,13 +127,13 @@ timeAtRisks <- tibble::tibble(
 
 # Propensity Score settings - match on PS (from Analysis Specifications)
 matchOnPsArgsList <- tibble::tibble(
-  label = "MatchOnPs1",
+  label = "MatchPS1",
   maxRatio  = 1,
   caliper = 0.2,
   caliperScale  = "standardized logit"
 )
 
-# No stratify by PS specified
+# No stratifyByPsArgs specified
 stratifyByPsArgsList <- tibble::tibble(
   label = character(),
   numberOfStrata  = integer(),
@@ -153,7 +153,7 @@ for (i in seq_len(nrow(matchOnPsArgsList))) {
     )
   )
 }
-# No stratifyByPsArgsList rows, so nothing to add
+# No stratifyByPsArgs to add
 
 # Iterate through all analysis setting combinations
 cmAnalysisList <- list()
@@ -165,6 +165,7 @@ for (s in seq_len(nrow(studyPeriods))) {
   for (t in seq_len(nrow(timeAtRisks))) {
     for (p in seq_along(psConfigList)) {
       psCfg <- psConfigList[[p]]
+      # Set up PS adjustment method
       if (psCfg$method == "match") {
         matchOnPsArgs <- CohortMethod::createMatchOnPsArgs(
           maxRatio = psCfg$params$maxRatio,
@@ -179,11 +180,11 @@ for (s in seq_len(nrow(studyPeriods))) {
           baseSelection = psCfg$params$baseSelection
         )
       }
-      # Covariate settings: use default, as no includes/excludes specified
+      # Covariate settings: default, as no includes/excludes specified
       covariateSettings <- FeatureExtraction::createDefaultCovariateSettings(
         addDescendantsToExclude = TRUE
       )
-      # Outcomes: main outcome + negative controls
+      # Outcomes: outcome1 (of interest) and negative controls
       outcomeList <- append(
         lapply(seq_len(nrow(oList)), function(i) {
           CohortMethod::createOutcome(
@@ -208,9 +209,7 @@ for (s in seq_len(nrow(studyPeriods))) {
           targetId = cmTcList$targetCohortId[i],
           comparatorId = cmTcList$comparatorCohortId[i],
           outcomes = outcomeList,
-          excludedCovariateConceptIds = c(
-            excludedCovariateConcepts$conceptId
-          )
+          excludedCovariateConceptIds = excludedCovariateConcepts$conceptId
         )
       }
       # getDbCohortMethodDataArgs as specified

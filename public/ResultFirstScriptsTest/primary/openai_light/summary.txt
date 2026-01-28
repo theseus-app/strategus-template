@@ -5,11 +5,10 @@ Type       : PRIMARY
 Runner     : R
 --------------------------------------
 Total scripts : 5
-Success count : 4
-Fail count    : 1
-Accuracy      : 80.00%
+Success count : 5
+Fail count    : 0
+Accuracy      : 100.00%
 
-❌ Failed Scripts:
-  - alzheimerdonepezil
+✅ All scripts executed successfully.
 --------------------------------------
 Logs saved under: public/ResultFirstScriptsTest/primary/openai_light/logs

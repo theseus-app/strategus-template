@@ -37,7 +37,7 @@ export const JSONGLP1RADepression = {
       matchOnPsArgs: {
         maxRatio: 1,
         caliper: 0.05,
-        caliperScale: "standardized logit"
+        caliperScale: "propensity score"
       },
       stratifyByPsArgs: null
     },

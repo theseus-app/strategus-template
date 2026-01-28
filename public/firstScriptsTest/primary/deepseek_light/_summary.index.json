@@ -1,35 +1,35 @@
 {
-  "createdAt": "2026-01-26T08:14:38.059Z",
+  "createdAt": "2026-01-27T13:25:08.082Z",
   "totalCases": 5,
   "results": [
     {
       "name": "AlzheimerDonepezil",
       "fileName": "alzheimerdonepezil.R",
-      "createdAt": "2026-01-26T08:06:43.972Z",
+      "createdAt": "2026-01-27T13:17:55.930Z",
       "savedPath": "public/firstScriptsTest/primary/deepseek_light/alzheimerdonepezil.R"
     },
     {
       "name": "CystectomyTrimodality",
       "fileName": "cystectomytrimodality.R",
-      "createdAt": "2026-01-26T08:08:46.183Z",
+      "createdAt": "2026-01-27T13:19:45.940Z",
       "savedPath": "public/firstScriptsTest/primary/deepseek_light/cystectomytrimodality.R"
     },
     {
       "name": "GLP1RADepression",
       "fileName": "glp1radepression.R",
-      "createdAt": "2026-01-26T08:10:41.913Z",
+      "createdAt": "2026-01-27T13:21:41.590Z",
       "savedPath": "public/firstScriptsTest/primary/deepseek_light/glp1radepression.R"
     },
     {
       "name": "MARS",
       "fileName": "mars.R",
-      "createdAt": "2026-01-26T08:12:37.456Z",
+      "createdAt": "2026-01-27T13:23:21.915Z",
       "savedPath": "public/firstScriptsTest/primary/deepseek_light/mars.R"
     },
     {
       "name": "SGLT2iMetformin",
       "fileName": "sglt2imetformin.R",
-      "createdAt": "2026-01-26T08:14:38.058Z",
+      "createdAt": "2026-01-27T13:25:08.082Z",
       "savedPath": "public/firstScriptsTest/primary/deepseek_light/sglt2imetformin.R"
     }
   ]

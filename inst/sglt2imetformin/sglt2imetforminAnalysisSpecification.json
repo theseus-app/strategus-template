@@ -115,7 +115,7 @@
         "cmAnalysisList": [
           {
             "analysisId": 1,
-            "description": "Study: 20130401-20200331; TAR: Tar_1_0_cohortStart_cohortEnd_min1day; PS: Match_maxRatio2_caliper0.2_stdLogit",
+            "description": "Study: 20130401-20200331; TAR: Day1ToCohortEnd; PS: MatchMaxRatio2Caliper0.2",
             "getDbCohortMethodDataArgs": {
               "studyStartDate": "20130401",
               "studyEndDate": "20200331",
@@ -210,7 +210,7 @@
                 "upperLimit": 20,
                 "gridSteps": 10,
                 "minCVData": 100,
-                "cvRepetitions": 1,
+                "cvRepetitions": 10,
                 "noiseLevel": "silent",
                 "threads": 1,
                 "seed": 1,
@@ -287,7 +287,7 @@
                 "upperLimit": 20,
                 "gridSteps": 10,
                 "minCVData": 100,
-                "cvRepetitions": 1,
+                "cvRepetitions": 10,
                 "noiseLevel": "quiet",
                 "threads": 1,
                 "seed": 1,
@@ -333,7 +333,6 @@
                 "attr_class": "outcome"
               }
             ],
-            "excludedCovariateConceptIds": [],
             "attr_class": "targetComparatorOutcomes"
           }
         ],
